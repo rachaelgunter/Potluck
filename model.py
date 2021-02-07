@@ -87,21 +87,21 @@ class UserPreference(db.Model):
         return f'<UserPreference user_preference_id = {self.user_preference_id} user_id = {self.user_id} preference_id = {self.preference_id}>'
 
 
-# class UserFavoriteRestaurant(db.Model):
-#     """model for users favorite restaurants"""
+class UserFavoriteRestaurant(db.Model):
+    """model for users favorite restaurants"""
 
-#     __tablename__ = "user_favorite_restaurants"
+    __tablename__ = "user_favorite_restaurants"
 
-#     favorite_restaurant_id = db.Column(db.Integer,
-#                             primary_key=True,
-#                             autoincrement=True,)
-#     # restaurant_id db.Column(db.String)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
+    favorite_restaurant_id = db.Column(db.Integer,
+                            primary_key=True,
+                            autoincrement=True,)
+    restaurant_id = db.Column(db.String, nullable=False,)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
 
-#     user_id = db.relationship('User', backref = 'user_favorite_restaurants')
+    user = db.relationship('User', backref = 'user_favorite_restaurants')
 
-#     def __repr__(self):
-#         return f'<UserFavoriteRestaurant favorite_restaurant_id = {self.favorite_restaurant_id} user_id = {self.user_id}>'
+    def __repr__(self):
+        return f'<UserFavoriteRestaurant favorite_restaurant_id = {self.favorite_restaurant_id} user_id = {self.user_id}>'
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///project', echo=True):

@@ -11,6 +11,11 @@ function getRestaurants(){
     .then(data => restaurantsInfo = data)
 }
 
+// tacos el bronco yelp key _M5FVY4hkcuU-ASdVZPfRQ
+
+// 99 flavor taste yelp key isIFCDLE3VIDJcqhVy_klA
+
+// viet place yelp key O-zwQQV8AExgdPoJiqjpDg
 
 
 // $.get()

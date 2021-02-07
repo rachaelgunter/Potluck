@@ -1,4 +1,4 @@
-from model import User, Preference, PersonalityTrait, UserPersonalityTrait, UserPreference, connect_to_db, db
+from model import User, Preference, PersonalityTrait, UserPersonalityTrait, UserPreference, UserFavoriteRestaurant, connect_to_db, db
 
 def create_user(first_name, last_name, email, password, over_21, user_zipcode):
     """creates and returns a new user"""
@@ -49,6 +49,16 @@ def create_user_preference(user_id, preference_id):
     db.session.commit()
 
     return user_prence
+
+def create_user_fav_restaurant(restaurant_id, user_id):
+    """creates and returns a users favorite restaurant"""
+
+    user_fav_rest = UserFavoriteRestaurant(restaurant_id=restaurant_id, user_id=user_id)
+
+    db.session.add(user_fav_rest)
+    db.session.commit()
+
+    return user_fav_rest
 
 if __name__ == '__main__':
     from server import app
