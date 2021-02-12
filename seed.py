@@ -26,7 +26,7 @@ for n in range(3):
     prence = crud.create_preference(preference_name)
 
 #seeding users and their traits
-for n in range(20):
+for n in range(1, 21):
     first_name = f'first-{n}'
     last_name = f'last-{n}'
     email = f'user{n}@test.com'
@@ -37,13 +37,13 @@ for n in range(20):
     user = crud.create_user(first_name, last_name, email, password, over_21, user_zipcode)
 
 for n in range(3):
-    user_id = randint(1, 20)
+    user_id = randint(1, 21)
     trait_id = randint(1, 3)
 
     user_ptrait = crud.create_user_ptrait(user_id, trait_id)
 
 for n in range(3):
-    user_id = randint(1, 20)
+    user_id = randint(1, 21)
     preference_id = randint(1, 3)
 
     user_prence = crud.create_user_preference(user_id, preference_id)
@@ -52,7 +52,7 @@ key = ["_M5FVY4hkcuU-ASdVZPfRQ", "isIFCDLE3VIDJcqhVy_klA", "O-zwQQV8AExgdPoJiqjp
 
 for n in range(3):
     restaurant_id = choice(key)
-    user_id = randint(1, 20) 
+    user_id = randint(1, 21) 
 
     fav_restaurant = crud.create_user_fav_restaurant(restaurant_id, user_id)   
     

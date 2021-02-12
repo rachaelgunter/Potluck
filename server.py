@@ -1,21 +1,44 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 
 import os
 import requests
+import crud
+from model import connect_to_db
+
+from jinja2 import StrictUndefined
 
 app = Flask(__name__)
+app.secret_key = "dev"
+app.jinja_env.undefined = StrictUndefined
+
+@app.route('/')
+def homepage():
+    """non post method of homepage """
+
+    return render_template ('homepage.html')
 
 @app.route('/', methods=['POST'])
-def homepage():
+def log_in():
     """displays homepage and log in"""
 
-    #if statement to check if you have an account
+    form_email = request.form.get("login_email")
+    form_password = request.form.get("login_password")
 
-    email = request.form.get("email")
-    password = request.form.get("password")
+    user = crud.get_user_by_email(form_email)
+    print("*******", user)
 
-    return render_template('homepage.html',
-                         email=email, password=password)
+    if user == None:
+        flash(f"no user with the {form_email} found! try making an account!")
+        return redirect ('/')
+
+    else:
+        flash(f"logging in!")
+        print(user)
+        return render_template('account.html',
+                         user = user)
+    
+        
+
 
 @app.route('/create_account', methods=['POST'])
 def create_user():
@@ -47,6 +70,9 @@ def user_account_page():
 
     render_template ('account.html')
 
+# @app.route('/account', methods=['POST'])
+# def 
+
 @app.route('/search')
 def search():
     """takes in info about what to search yelp for """
@@ -64,3 +90,7 @@ def rando_results():
 @app.route('/all_results')
 def search_results():
     """shows a list of all the results from the search"""
+
+if __name__ == '__main__':
+    connect_to_db(app)
+    app.run(host='0.0.0.0', debug=True)

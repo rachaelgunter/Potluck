@@ -60,6 +60,13 @@ def create_user_fav_restaurant(restaurant_id, user_id):
 
     return user_fav_rest
 
+def get_user_by_email(email):
+    """returns user_id from email"""
+
+    user = User.query.filter(User.email=='email').all()
+
+    return user
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
