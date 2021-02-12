@@ -63,7 +63,7 @@ def create_user_fav_restaurant(restaurant_id, user_id):
 def get_user_by_email(email):
     """returns user_id from email"""
 
-    user = User.query.filter(User.email==email).all()
+    user = User.query.filter(User.email==email).first()
 
     return user
 

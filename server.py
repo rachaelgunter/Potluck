@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect
 
 import os
 import requests
@@ -27,24 +27,26 @@ def log_in():
     user = crud.get_user_by_email(form_email)
     print("*******", user)
 
-    if user != None:
-        flash(f"no user with the {form_email} found! try making an account!")
-        
-
-    else:
+    if user:
         flash(f"logging in!")
         print(user)
         return render_template('account.html',
                          user=user)
+        
+    else:
+        flash(f"no user with the {form_email} found! try making an account!")
     
-    return redirect('/')   
+    return redirect('/') 
 
+@app.route('/create_account')
+def create_account_page():
+    """displays the form to create account"""
+
+    return render_template ('create_account.html')
 
 @app.route('/create_account', methods=['POST'])
 def create_user():
     """page to create a new account"""
-
-    #if statement to check if you have an account
 
     first_name = request.form.get("first_name")
     last_name = request.form.get("last_name")
@@ -53,25 +55,44 @@ def create_user():
     over_21 = request.form.get("over_21")
     user_zipcode = request.form.get("user_zipcode")
 
-    render_template ('create_account.html',
-                    first_name=first_name,
-                    last_name=last_name,
-                    email=email,
-                    password=password,
-                    over_21=over_21,
-                    user_zipcode=user_zipcode)
+    user = crud.get_user_by_email(email)
+    
+
+    # if user in database user crud to get user by email
+    #     say that the user already exists and to log in
+    if user:
+        flash('this user already exists with this email')
+
+    else:
+        # used crud function to create a user and bring them to their account page
+        if over_21 == "True":
+            over_21 = True
+        if over_21 == ("False"):
+            over_21 = False
+        user = crud.create_user(first_name, last_name, email, password, over_21, user_zipcode)
+        return render_template ('account.html',
+                                user=user)
+                        # first_name=first_name,
+                        # last_name=last_name,
+                        # email=email,
+                        # password=password,
+                        # over_21=over_21,
+                        # user_zipcode=user_zipcode)
+
+    return redirect('/create_account')
 
 @app.route('/account')
 def user_account_page():
     """lists info about the users account
         including preferences and fav restaurants"""
-    
-    # request.args.get("")
 
     render_template ('account.html')
 
-# @app.route('/account', methods=['POST'])
-# def 
+@app.route('/account', methods=['POST'])
+def user_account_page_display():
+    """displays the forms for all the account users info"""
+    
+ # request.args.get("")
 
 @app.route('/search')
 def search():
