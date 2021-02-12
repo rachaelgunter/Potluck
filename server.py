@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, session
 
 import os
 import requests
@@ -27,17 +27,17 @@ def log_in():
     user = crud.get_user_by_email(form_email)
     print("*******", user)
 
-    if user == None:
+    if user != None:
         flash(f"no user with the {form_email} found! try making an account!")
-        return redirect ('/')
+        
 
     else:
         flash(f"logging in!")
         print(user)
         return render_template('account.html',
-                         user = user)
+                         user=user)
     
-        
+    return redirect('/')   
 
 
 @app.route('/create_account', methods=['POST'])
