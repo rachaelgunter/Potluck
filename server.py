@@ -1,15 +1,20 @@
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect, session
 
 import os
 import requests
 import crud
 from model import connect_to_db
+import yelp
 
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
+SESSION_TYPE = 'null'
+# Session(app)
+
+##################################################################################################################
 
 @app.route('/')
 def homepage():
@@ -17,7 +22,7 @@ def homepage():
 
     return render_template ('homepage.html')
 
-@app.route('/', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def log_in():
     """displays homepage and log in"""
 
@@ -26,17 +31,27 @@ def log_in():
 
     user = crud.get_user_by_email(form_email)
     print("*******", user)
+    print(user.password)
+
 
     if user:
-        flash(f"logging in!")
-        print(user)
-        return render_template('account.html',
-                         user=user)
+        if form_password == user.password: 
+            flash(f"logging in!")
+            print(user)
+            session['email'] = form_email
+            print(session)
+            print(session['email']) 
+            return render_template('account.html',
+                                user=user,)
+        if form_password != user.password:
+            return render_template('homepage.html')
         
     else:
         flash(f"no user with the {form_email} found! try making an account!")
     
     return redirect('/') 
+
+##################################################################################################################
 
 @app.route('/create_account')
 def create_account_page():
@@ -56,7 +71,7 @@ def create_user():
     user_zipcode = request.form.get("user_zipcode")
 
     user = crud.get_user_by_email(email)
-    
+    session['email'] = email
 
     # if user in database user crud to get user by email
     #     say that the user already exists and to log in
@@ -81,36 +96,76 @@ def create_user():
 
     return redirect('/create_account')
 
-@app.route('/account')
+##################################################################################################################
+
+@app.route('/account', methods=['POST'])
 def user_account_page():
     """lists info about the users account
         including preferences and fav restaurants"""
 
-    render_template ('account.html')
+    session['email'] = email
 
-@app.route('/account', methods=['POST'])
+    if 'email' in session:
+        user = crud.get_user_by_email(email)
+        return render_template ('account.html', user=user)
+
+    else:
+        return redirect('/')
+
+@app.route('/account')
 def user_account_page_display():
     """displays the forms for all the account users info"""
     
  # request.args.get("")
+    return render_template('account.html')
+
+##################################################################################################################
 
 @app.route('/search')
-def search():
+def search_page():
     """takes in info about what to search yelp for """
+    print('hello')
+    return render_template('search.html')
 
-    render_template ('search.html')
+# @app.route('/search')
+# def actual_search():
+#     """takes in info about what to search yelp for """
+#     print('hello bitches')
+#     zipcode = request.args.get('user_zipcode')
+
+#     return render_template('search_results.html',
+#                             zipcode=zipcode,)
 
 @app.route('/search_results')
 def rando_results():
     """shows the chosen results from the search"""
 
-    render_template ('search_results.html')
+    zipcode = request.args.get('user_zipcode')
+ 
+    businesses = yelp.yelp_api_query(zipcode)
 
+    
+
+    # api_url = "https://api.yelp.com/v3/businesses/search"
+    # params = {'limit': 1, 'location': zipcode}
+    # response = requests.get(api_url, params=params)
+    # response = response.json()
+    # print("******",response)
+
+    return render_template('search_results_all.html',
+                            businesses = businesses)
+
+    # else:
+    #     return render_template ('search_results.html')
 
 
 @app.route('/all_results')
 def search_results():
     """shows a list of all the results from the search"""
+
+    return render_template ('search_results.html')
+
+##################################################################################################################
 
 if __name__ == '__main__':
     connect_to_db(app)

@@ -67,6 +67,12 @@ def get_user_by_email(email):
 
     return user
 
+# def call_yelp_api(zipcode):
+#     """queries yelp api"""
+
+#     api_url = "https://api.yelp.com/v3/businesses/search"
+#     payload = {zipcode; }
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
