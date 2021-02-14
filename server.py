@@ -5,7 +5,7 @@ import requests
 import crud
 from model import connect_to_db
 import yelp
-
+import random
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
@@ -31,8 +31,6 @@ def log_in():
 
     user = crud.get_user_by_email(form_email)
     print("*******", user)
-    print(user.password)
-
 
     if user:
         if form_password == user.password: 
@@ -41,12 +39,15 @@ def log_in():
             session['email'] = form_email
             print(session)
             print(session['email']) 
+            preferences = crud.get_users_preferences(user.user_id)
             return render_template('account.html',
-                                user=user,)
+                                user=user,
+                                preferences=preferences,)
         if form_password != user.password:
+            flash(f'incorrect password')
             return render_template('homepage.html')
         
-    else:
+    if user == None:
         flash(f"no user with the {form_email} found! try making an account!")
     
     return redirect('/') 
@@ -98,33 +99,40 @@ def create_user():
 
 ##################################################################################################################
 
-@app.route('/account', methods=['POST'])
+@app.route('/account', methods=['GET', 'POST'])
 def user_account_page():
     """lists info about the users account
         including preferences and fav restaurants"""
-
-    session['email'] = email
+    print(session)
+    # session['email'] = email
+    print(session)
+    # print(user)
 
     if 'email' in session:
-        user = crud.get_user_by_email(email)
-        return render_template ('account.html', user=user)
+        user = crud.get_user_by_email(session['email'])
+        preferences = crud.get_users_preferences(user.user_id)
+        return render_template ('account.html',
+                                user=user,
+                                preferences=preferences)
 
     else:
         return redirect('/')
 
-@app.route('/account')
-def user_account_page_display():
-    """displays the forms for all the account users info"""
-    
- # request.args.get("")
-    return render_template('account.html')
+# @app.route('/account')
+# def user_account_page_display():
+#     """displays the forms for all the account users info"""
+#     print(session)
+#  # request.args.get("")
+#     return render_template('account.html')
 
 ##################################################################################################################
 
 @app.route('/search')
 def search_page():
     """takes in info about what to search yelp for """
-    print('hello')
+
+    print(session)
+  
     return render_template('search.html')
 
 # @app.route('/search')
@@ -138,32 +146,82 @@ def search_page():
 
 @app.route('/search_results')
 def rando_results():
-    """shows the chosen results from the search"""
+    """shows the 5 full results from the search"""
 
     zipcode = request.args.get('user_zipcode')
+    categories = request.args.get('categories')
+    address = request.args.get('address')
+    # morerandos = request.args.get('fiverandos')
  
-    businesses = yelp.yelp_api_query(zipcode)
+    businesses = yelp.yelp_api_query(zipcode, categories, address)
 
+  
+    first = [businesses['businesses'][0]['name'],
+                businesses['businesses'][0]['id'],
+                businesses['businesses'][0]['categories'][0]['title'],
+                businesses['businesses'][0]['rating'],
+                businesses['businesses'][0]['coordinates'],
+                businesses['businesses'][0]['price'],
+                businesses['businesses'][0]['location']['display_address'],
+                businesses['businesses'][0]['display_phone']]
+    second = [businesses['businesses'][1]['name'],
+                businesses['businesses'][1]['id'],
+                businesses['businesses'][1]['categories'][0]['title'],
+                businesses['businesses'][1]['rating'],
+                businesses['businesses'][1]['coordinates'],
+                businesses['businesses'][1]['price'],
+                businesses['businesses'][1]['location']['display_address'],
+                businesses['businesses'][1]['display_phone']]
+    third = [businesses['businesses'][2]['name'],
+                businesses['businesses'][2]['id'],
+                businesses['businesses'][2]['categories'][0]['title'],
+                businesses['businesses'][2]['rating'],
+                businesses['businesses'][2]['coordinates'],
+                businesses['businesses'][2]['price'],
+                businesses['businesses'][2]['location']['display_address'],
+                businesses['businesses'][2]['display_phone']]
+    fourth = [businesses['businesses'][3]['name'],
+                businesses['businesses'][3]['id'],
+                businesses['businesses'][3]['categories'][0]['title'],
+                businesses['businesses'][3]['rating'],
+                businesses['businesses'][3]['coordinates'],
+                businesses['businesses'][3]['price'],
+                businesses['businesses'][3]['location']['display_address'],
+                businesses['businesses'][3]['display_phone']]
+    fifth = [businesses['businesses'][4]['name'],
+                businesses['businesses'][4]['id'],
+                businesses['businesses'][4]['categories'][0]['title'],
+                businesses['businesses'][4]['rating'],
+                businesses['businesses'][4]['coordinates'],
+                businesses['businesses'][4]['price'],
+                businesses['businesses'][4]['location']['display_address'],
+                businesses['businesses'][4]['display_phone']]
+    list = [first, second, third, fourth, fifth] 
     
-
-    # api_url = "https://api.yelp.com/v3/businesses/search"
-    # params = {'limit': 1, 'location': zipcode}
-    # response = requests.get(api_url, params=params)
-    # response = response.json()
-    # print("******",response)
-
-    return render_template('search_results_all.html',
-                            businesses = businesses)
+    singular_choice = random.choice(list)
+    print(singular_choice)
+    return render_template ('search_results.html',
+                            rando = singular_choice,
+                            businesses=businesses,
+                            list = list)
 
     # else:
-    #     return render_template ('search_results.html')
+    #     return render_template('search_results_all.html',
+    #                             businesses = businesses)
 
 
-@app.route('/all_results')
-def search_results():
-    """shows a list of all the results from the search"""
+# @app.route('/all_results')
+# def search_results():
+#     """shows a list of all the results from the search"""
 
-    return render_template ('search_results.html')
+#     zipcode = request.args.get('user_zipcode')
+#     categories = request.args.get('categories')
+#     address = request.args.get('address')
+ 
+#     businesses = yelp.yelp_api_query(zipcode, categories, address)
+
+#     return render_template('search_results_all.html',
+#                             businesses = businesses)
 
 ##################################################################################################################
 

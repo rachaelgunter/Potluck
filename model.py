@@ -80,7 +80,7 @@ class UserPreference(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
     preference_id = db.Column(db.Integer, db.ForeignKey('preferences.preference_id'),)
     
-    user= db.relationship('User', backref = 'user_preference')
+    user = db.relationship('User', backref = 'user_preference')
     preference = db.relationship('Preference', backref = 'user_preference')
 
     def __repr__(self):

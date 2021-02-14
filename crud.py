@@ -67,6 +67,22 @@ def get_user_by_email(email):
 
     return user
 
+def get_users_preferences(user_id):
+    """returns a list of users preferences"""
+
+    user_preference = UserPreference.query.filter(User.user_id==user_id).first()
+    preferences = Preference.query.filter(user_preference.preference_id==user_preference.preference_id).all()
+
+    return preferences
+
+def log_out():
+    """log out session"""
+
+    session.clear()
+    
+
+
+
 # def call_yelp_api(zipcode):
 #     """queries yelp api"""
 
