@@ -20,6 +20,16 @@ def create_preference(preference_name):
 
     return preference
 
+def create_user_preference(user_id, preference_id):
+    """creates and returns a user preference"""
+
+    user_prence = UserPreference(user_id=user_id, preference_id=preference_id)
+
+    db.session.add(user_prence)
+    db.session.commit()
+
+    return user_prence
+
 def create_trait(trait_name):
     """creates and returns a trait"""
 
@@ -39,16 +49,6 @@ def create_user_ptrait(user_id, trait_id):
     db.session.commit()
 
     return user_ptrait
-
-def create_user_preference(user_id, preference_id):
-    """creates and returns a user preference"""
-
-    user_prence = UserPreference(user_id=user_id, preference_id=preference_id)
-
-    db.session.add(user_prence)
-    db.session.commit()
-
-    return user_prence
 
 def create_user_fav_restaurant(restaurant_id, user_id):
     """creates and returns a users favorite restaurant"""
@@ -79,15 +79,17 @@ def log_out():
     """log out session"""
 
     session.clear()
+
+def create_user_preference_for_user(preference_name, email):
+    """create a preference and user preference by user email"""
     
+    preference = create_preference(preference_name=preference_name)
+    user = get_user_by_email(email)
+    user_prence = create_user_preference(user.user_id, preference.preference_id)
+
+    return user_prence
 
 
-
-# def call_yelp_api(zipcode):
-#     """queries yelp api"""
-
-#     api_url = "https://api.yelp.com/v3/businesses/search"
-#     payload = {zipcode; }
 
 if __name__ == '__main__':
     from server import app
