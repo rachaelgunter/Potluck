@@ -40,9 +40,13 @@ def log_in():
             print(session)
             print(session['email']) 
             preferences = crud.get_users_preferences(user.user_id)
-            return render_template('account.html',
-                                user=user,
-                                preferences=preferences,)
+            if preferences:
+                return render_template('account.html',
+                                    user=user,
+                                    preferences=preferences,)
+            else:
+                return render_template('account.html',
+                                user=user,)                           
         if form_password != user.password:
             flash(f'incorrect password')
             return render_template('homepage.html')
@@ -109,69 +113,45 @@ def answer_quiz():
     print(email)
 
     user = crud.get_user_by_email(email)
-    
+
     veg = request.form.get('veg')
-    kosher = request.form.get('kosher')
-    drink = request.form.get('drink')
-    # if drink == 'yes':
-    #     drink = True
-    # if drink == 'no':
-    #     drink = False
-    wheel_chair_accessibile = request.form.get('wheel-chair-accessible')
-    if wheel_chair_accessibile == 'yes':
-        wheel_chair_accessibile = True
-    if wheel_chair_accessibile == 'no':
-        wheel_chair_accessibile = False
-    gender_neutral_restrooms = request.form.get('gender-neutral-restrooms')
-    if gender_neutral_restrooms == 'yes':
-        gender_neutral_restrooms = True
-    if gender_neutral_restrooms == 'no':
-        gender_neutral_restrooms = False
-    open_to_all = request.form.get('open-to-all')
-    if open_to_all == 'yes':
-        open_to_all = True
-    if open_to_all == 'no':
-        open_to_all = False
-
-# veg = vegan vegatairn seafood none
-# kosher = kosher none
-# drink = over 21 under 21
-# wheel_chair = yes none
-# gender neutral restrooms = yes none
-# open to all = yes none
-
     if veg == "vegan" or veg == "vegatarian" or veg == "seafood":
-        veg = crud.create_user_preference_for_user(veg, email)
+        veg_prence = crud.create_user_preference_for_user(veg, email)
     else:  
         pass 
-    print(veg)
+    kosher = request.form.get('kosher')
     if kosher == "kosher":
-        kosher = crud.create_user_preference_for_user(kosher, email)
+        kosher_prence = crud.create_user_preference_for_user(kosher, email)
     else:  
         pass 
-    if drink == "yes":
-        drink = crud.create_user_preference_for_user(kosher, email)
+    drink = request.form.get('drink')
+    if drink == "drink":
+        drink_prence = crud.create_user_preference_for_user(drink, email)
     else:  
         pass 
-    drink = crud.create_user_preference_for_user(drink, email)
-    print(drink)
-    wheel_chair_accessibile = crud.create_user_preference_for_user(wheel_chair_accessibile, email)
-    print(wheel_chair_accessibile)
-
-    gender_neutral_restrooms = crud.create_user_preference_for_user(wheel_chair_accessibile, email)
-    print(gender_neutral_restrooms)
-    open_to_all = crud.create_user_preference_for_user(open_to_all, email)
-    print(open_to_all)
-
-    print(user)
+    wheel_chair_accessibile = request.form.get('wheel-chair-accessible')
+    if wheel_chair_accessibile == "wheel_chair_accessible":
+        wheel_chair_accessibile_prence = crud.create_user_preference_for_user(wheel_chair_accessibile, email)
+    else:  
+        pass 
+    gender_neutral_restrooms = request.form.get('gender-neutral-restrooms')
+    if gender_neutral_restrooms == "gender_neutral_restrooms":
+        gender_neutral_restrooms_prence = crud.create_user_preference_for_user(gender_neutral_restrooms, email)
+    else:  
+        pass 
+    open_to_all = request.form.get('open-to-all')
+    if open_to_all == "open_to_all":
+        open_to_all_prence = crud.create_user_preference_for_user(open_to_all, email)
+    else:  
+        pass 
+    # print(drink_prence)
+    print(user) 
+    preferences = crud.get_all_users_preferences(user.user_id)
+    print(preferences)
+    
     return render_template('account.html',
                             user=user,
-                            veg=veg,
-                            kosher=kosher,
-                            drink=drink,
-                            wheel_chair_accessibile=wheel_chair_accessibile,
-                            gender_neutral_restrooms=gender_neutral_restrooms,
-                            open_to_all=open_to_all,)
+                            preferences=preferences)
 
 ##################################################################################################################
 
@@ -186,7 +166,8 @@ def user_account_page():
 
     if 'email' in session:
         user = crud.get_user_by_email(session['email'])
-        preferences = crud.get_users_preferences(user.user_id)
+        preferences = crud.get_all_users_preferences(user.user_id)
+        print(preferences)
         return render_template ('account.html',
                                 user=user,
                                 preferences=preferences)

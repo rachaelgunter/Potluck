@@ -69,7 +69,7 @@ def get_user_by_email(email):
 
 def get_users_preferences(user_id):
     """returns a list of users preferences"""
-
+    
     user_preference = UserPreference.query.filter(User.user_id==user_id).first()
     preferences = Preference.query.filter(user_preference.preference_id==user_preference.preference_id).all()
 
@@ -84,10 +84,37 @@ def create_user_preference_for_user(preference_name, email):
     """create a preference and user preference by user email"""
     
     preference = create_preference(preference_name=preference_name)
-    user = get_user_by_email(email)
+    user = get_user_by_email(email=email)
     user_prence = create_user_preference(user.user_id, preference.preference_id)
 
     return user_prence
+
+def get_all_users_preferences(user_id):
+    """returns a list of all users preferences (user_preference_id)"""
+
+    user_prefs = []
+    preferences = UserPreference.query.filter_by(user_id=user_id).all()
+    for preference in preferences:
+        preference_id = preference.preference_id
+        temp = Preference.query.get(preference_id)
+        user_prefs.append(temp)
+    print(user_prefs)
+
+    return user_prefs
+
+
+
+
+
+
+
+def get_users_preferences(user_id):
+    """returns a list of users preferences"""
+    
+    user_preference = UserPreference.query.filter(User.user_id==user_id).first()
+    preferences = Preference.query.filter(user_preference.preference_id==user_preference.preference_id).all()
+
+    return preferences
 
 
 
