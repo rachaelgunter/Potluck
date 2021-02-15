@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Welcome to Pot Luck{% endblock %}</title>
+</head>
+<body>
+  <body>
+    <link rel="stylesheet" href="css/navbar.css">
+
+    <script src="jquery-3.4.0.min.js"></script>
+
+<!-- script below -->
+<script type="text/javascript"></script>
+<nav>
+    <ul>
+        <button> 🞬 </button>
+        <li> 
+        <!-- list item three -->
+        <a href="/"> ♠️ Home </a>
+        </li>
+        <button> 🞬 </button>
+        <li> 
+        <!-- list item one -->
+        <a href="/account"> ♣️ Account Page </a>
+        </li>
+        <button> 🞬 </button>
+        <li> 
+        <!-- list item two -->
+        <a href="/search"> ♥️ Make a Search</a>
+        </li>
+        <button> 🞬 </button>
+        <li> 
+        <!-- list item four -->
+        <a href="/create_account"> ♦️ Create an Account</a>
+        </li>
+        <button> 🞬 </button>
+        <li> 
+        <!-- list item five-->
+        <a href="/logout"> Logout </a>
+        </li>
+
+    </ul>
+
+</nav>
+  <h1><p style = "font-family:courier,arial,helvetica;">
+    let's get lucky</p></h1>
+    {% for mesg in get_flashed_messages() %}
+    <h1>{{ mesg }}</h1>
+    {% endfor %}
+  {% block content %}POT LUCK BLOCK{% endblock %}
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="/static/searchResults.js"></script>
+
+
+  
+
+
+  
+</body>
+</html>

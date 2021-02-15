@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{%block title %}create an account{% endblock %}
+<!-- {% block content %} -->
+{% block body %}
+<div>
+<form action = '/create_account' method='POST'>
+    <p>
+    <input type="text" name="first_name">
+    <label>First Name</label>
+  </p>
+  <p>
+    <input type="text" name="last_name">
+    <label>Last Name</label>
+  </p>
+  <p>
+    <input type="text" name="email">
+    <label>Email</label>
+  </p>
+  <p>
+    <input type="text" name="password">
+    <label>Password</label>
+  </p>
+  <p>
+    <select name = "over_21">
+        <option value = "True">Yes</option>
+        <option value = "False">No</option>
+    </select>
+    <label>over 21?</label>
+  </p>
+  <p>
+    <input type="text" name="user_zipcode">
+    <label>Zipcode</label>
+  </p>
+    <button type="submit">create account</button>
+  </form>
+</div>
+{% endblock %}
+{% endblock %}

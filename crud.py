@@ -50,10 +50,10 @@ def create_user_ptrait(user_id, trait_id):
 
     return user_ptrait
 
-def create_user_fav_restaurant(restaurant_id, user_id):
+def create_user_fav_restaurant(restaurant_id, user_id, restaurant_info):
     """creates and returns a users favorite restaurant"""
 
-    user_fav_rest = UserFavoriteRestaurant(restaurant_id=restaurant_id, user_id=user_id)
+    user_fav_rest = UserFavoriteRestaurant(restaurant_id=restaurant_id, user_id=user_id, restaurant_info=restaurant_info)
 
     db.session.add(user_fav_rest)
     db.session.commit()
@@ -78,7 +78,7 @@ def get_users_preferences(user_id):
 def log_out():
     """log out session"""
 
-    session.clear()
+    session.pop('email')
 
 def create_user_preference_for_user(preference_name, email):
     """create a preference and user preference by user email"""
@@ -103,11 +103,6 @@ def get_all_users_preferences(user_id):
     return user_prefs
 
 
-
-
-
-
-
 def get_users_preferences(user_id):
     """returns a list of users preferences"""
     
@@ -116,6 +111,13 @@ def get_users_preferences(user_id):
 
     return preferences
 
+def add_restaurant_to_favorites(email, restaurant_id, restaurant_info):
+    """add a restaurant to a list of users favorites"""
+
+    user = get_user_by_email(email=email)
+    fav_restaurant = create_user_fav_restaurant(restaurant_id, user.user_id, restaurant_info)
+
+    return fav_restaurant
 
 
 if __name__ == '__main__':

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{%block title %}create an account{% endblock %}
+<!-- {% block content %} -->
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <h1>Hi there {{ user.first_name }}!</h1>
+  Thanks for joining Pot Luck!<br/>
+    <title>QUIZ</title>
+    lets get to know a little bit about you first!!
+    you'll answer some questions so we can pick u better Pot Luck's!
+    <form action='/quiz' method='post'>
+        First: are you vegan/vegetarian/pescatarian?
+        <select name="veg">
+          <option value="vegan">Vegan</option>
+          <option value="vegatarian">Vegatarian</option>
+          <option value="pescatarian">Pescatarian</option>
+          <option value="omni">Omnivorous</option>
+        </select><br/><br/>
+        Do you keep kosher?
+        <select name="kosher">
+          <option value="kosher">Kosher</option>
+          <option value="not kosher">Not Kosher</option>
+        </select><br/>
+        Do you drink?
+        <select name="drink">
+          <option value="drink">Yes</option>
+          <option value="no">No</option>
+        </select><br/>
+      Here at Pot Luck we ~REALLY~ value accessibility, patronizing places that aren't isnt helpful,
+       but that does knock some restaurants off the list, you'll have the option to toggle this on 
+       and off later on!<br/>
+        Do you want to see any restaurants that arent wheel-chair accessible? 
+        <select name="wheel-chair-accessible">
+          <option value="no">Yes</option>
+          <option value="wheel_chair_accessible">No</option>
+        </select><br/>
+        Do you want to see any restaurants without gender-neutral restrooms?
+        <select name="gender-neutral-restrooms">
+            <option value="no">Yes</option>
+            <option value="gender_neutral_restrooms">No</option>
+          </select><br/>
+        Do you want to see any restaurants that DON'T participate in the <a href="https://www.opentoall.com/">Open to All Campaign</a>?
+          <select name="open-to-all">
+            <option value="no">Yes</option>
+            <option value="open_to_all">No</option>
+          </select><br/>
+        <button type="submit">save it!</button>
+      </form>
+</head>
+<body>
+{% endblock %}
+{% endblock %}
+</body>
+</html>

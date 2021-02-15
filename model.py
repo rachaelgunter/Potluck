@@ -96,6 +96,7 @@ class UserFavoriteRestaurant(db.Model):
                             primary_key=True,
                             autoincrement=True,)
     restaurant_id = db.Column(db.String, nullable=False,)
+    restaurant_info = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
 
     user = db.relationship('User', backref = 'user_favorite_restaurants')

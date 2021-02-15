@@ -39,7 +39,7 @@ def log_in():
             session['email'] = form_email
             print(session)
             print(session['email']) 
-            preferences = crud.get_users_preferences(user.user_id)
+            preferences = crud.get_all_users_preferences(user.user_id)
             if preferences:
                 return render_template('account.html',
                                     user=user,
@@ -175,13 +175,6 @@ def user_account_page():
     else:
         return redirect('/')
 
-# @app.route('/account')
-# def user_account_page_display():
-#     """displays the forms for all the account users info"""
-#     print(session)
-#  # request.args.get("")
-#     return render_template('account.html')
-
 ##################################################################################################################
 
 @app.route('/search')
@@ -231,6 +224,7 @@ def rando_results():
 
     print(reservations)
     print(hot_and_new)
+    print(zipcode)
 
     businesses = yelp.yelp_api_query(zipcode, 
                                     categories, 
@@ -239,6 +233,8 @@ def rando_results():
                                     hot_and_new,
                                     open_now, 
                                     reservations,)
+
+    print(businesses)
 
     first = [businesses['businesses'][0]['name'],
                 businesses['businesses'][0]['id'],
@@ -300,6 +296,33 @@ def rando_results():
         flash('Make some selections first!')
         return render_template('search.html')
 
+##################################################################################################################
+
+@app.route('/logout')
+# @login_required
+def logout():
+    """logs out user by clearing session"""
+    print(session)
+    if session['email']:
+        session.pop('email')
+        flash('You were logged out.')
+        return redirect('/')
+    else: 
+        pass
+##################################################################################################################
+
+@app.route('/favorite')
+def add_to_favorites():
+    """adds a restaurant to your favorites"""
+
+    restaurant = request.args.get('rando')
+
+    if session['email']:
+        email = session['email']
+        restaurant_id = businesses['businesses'][0]['id']
+        crud.add_restaurant_to_favorites(email, restaurant_id, restaurant_info)
+
+    
 ##################################################################################################################
 
 if __name__ == '__main__':

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}My awesome page title{% endblock %}
+{% block content %}
+<h1>WELCOME TO POT LUCK</h1>
+    <h2>WE GON HELP U CHOOSE WHATS FOR DINNER</h2>
+    <h3>BASED ON WHAT YOU LIKE!!!</h3>
+<h4>Pot Luck's HOME page/LOG IN PAGE</h4>
+
+<form action = '/login' method='POST'>
+  <p>
+  <input type="text" name="login_email">
+  <label>email</label>
+</p><p>
+  <input type="text" name="login_password">
+  <label>password</label>
+  <br>
+</p>
+  <button type="submit">log in</button>
+</form>
+<br/>
+<h5>Not a member yet???</h5>
+<button><a href='/create_account'>Create a Pot Luck Account</a></button>
+{% endblock %}
+</html>
+</body>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{%block title %}search results{% endblock %}
+<!-- {% block content %} -->
+{% block body %}
+<body>
+  <div>
+    <p style = "font-family:courier new,arial,helvetica;">
+      {{ rando }}<a href='/favorite'>Add this restaurant to your favorites</a>
+      </p>
+
+  <h1>this is going to show one of the search results</h1>
+</div>
+
+<button onclick="resultsHidingFunction()">Click to see all 5!</button>
+<div class="showing-results" id="randos" style="display:none">
+  
+    {{ list[0] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
+    {{ list[1] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
+    {{ list[2] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
+    {{ list[3] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
+    {{ list[4] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
+    
+    <h1>this is going to show all 5 of the search results</h1>
+  
+  
+  <a href='/search_results'>view all 5 results </h2></a>
+</div>
+</body>
+{% endblock %}
+{% endblock %}
