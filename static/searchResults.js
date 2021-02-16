@@ -55,11 +55,21 @@ function favoriteRestaurant(evt) {
 
 }
     
-  // $.get(url, formData, (res) => {
-  //   console.log(res)
-  //   $('#fortune-text').text(res);
-  // } );
-
-
-
 $('#favorite-restaurant').on('click', favoriteRestaurant);
+
+function viewFaves() {
+  evt.preventDefault();
+
+  let url = "/favorite_restaurants"
+  let formData = {
+    "Restaurant": $("#restaurant-name").html()
+  }
+  console.log(url)
+  console.log(formData)
+
+  fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(formData)
+  })
+}

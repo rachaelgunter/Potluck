@@ -118,7 +118,7 @@ def add_restaurant_to_favorites(email, restaurant_id, restaurant_info):
     restaurant = UserFavoriteRestaurant.query.filter(UserFavoriteRestaurant.restaurant_id==restaurant_id).all()
     if not restaurant:
         fav_restaurant = create_user_fav_restaurant(restaurant_id, user.user_id, restaurant_info)
-    print("!(!(!(!(!(!(!(", fav_restaurant.restaurant_id)
+        print("!(!(!(!(!(!(!(", fav_restaurant.restaurant_id)
 
     return fav_restaurant
 

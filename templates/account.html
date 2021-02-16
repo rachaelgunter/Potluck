@@ -12,6 +12,7 @@
 </div>
 <div> 
 <h2>{{ user.first_name }}'s Preferences</h2>
+    
     {% for preference in preferences %}
     likes: {{ preference.preference_name }}
     {% endfor %}
@@ -19,9 +20,16 @@
 <h3>THESE ARE SOME FAVORITES</h3>
 <div>
     {{ user.first_name }}'s Favorite Restaurants
+    {% if favorite_restaurants %}
     {% for item in favorite_restaurants %}
-    {{ json.loads(item.restaurant_info) }}
+    <p id="restaurant-name">{{ item.restaurant_info['name'] }}</p>
     {% endfor %}
+    {% endif %}
+    
+    view all your favorites and their info<br/>
+    <form action="/favorite_restaurants">
+    <button value=favorite_restaurants id="favorite-restaurants">View Favorites</button>
+</form>
 </div>
 
 <!-- should go in the center of the page -->

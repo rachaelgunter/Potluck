@@ -41,6 +41,7 @@ def log_in():
             print(session)
             print(session['email']) 
             preferences = crud.get_all_users_preferences(user.user_id)
+            print(preferences)
             if preferences:
                 return render_template('account.html',
                                     user=user,
@@ -138,10 +139,13 @@ def answer_quiz():
     print(user) 
     preferences = crud.get_all_users_preferences(user.user_id)
     print(preferences)
+    favorite_restaurants = crud.get_users_favorites_restaurants(user.email)
+    print(favorite_restaurants)
     
     return render_template('account.html',
                             user=user,
-                            preferences=preferences)
+                            preferences=preferences,
+                            favorite_restaurants=favorite_restaurants)
 
 ##################################################################################################################
 
@@ -156,11 +160,12 @@ def user_account_page():
         user = crud.get_user_by_email(session['email'])
         preferences = crud.get_all_users_preferences(user.user_id)
         print(preferences)
+        print("@@@@@@@", session)
         fave_restaurants = crud.get_users_favorites_restaurants(user.email)
         print(fave_restaurants)
         for item in fave_restaurants:
             print(item.restaurant_info)
-            print(json.loads(item.restaurant_info))
+            # print(json.loads(item.restaurant_info))
         
         return render_template ('account.html',
                                 user=user,
@@ -312,6 +317,20 @@ def add_to_favorites():
     return jsonify('success')
 
    
+##################################################################################################################
+
+@app.route('/favorite_restaurants', methods=['GET', 'POST'])
+def display_favorite_restaurants():
+    """displays all favorite restaurants infomation"""
+    if session['email']:
+        user = crud.get_user_by_email(session['email'])
+        fave_rest = crud.get_users_favorites_restaurants(user.email)
+        print("#######3", fave_rest)
+
+    return render_template('favrestpage.html',
+                            user=user,
+                            favorite_restaurants=fave_rest)
+
 ##################################################################################################################
 
 if __name__ == '__main__':
