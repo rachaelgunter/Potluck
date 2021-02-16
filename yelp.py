@@ -7,7 +7,7 @@ def yelp_api_query(zipcode, categories, *args):
     YELP_KEY = os.environ['YELP_KEY']
     headers = {'Authorization': 'Bearer %s' % YELP_KEY}
 
-    print(headers)
+   
 
     url='https://api.yelp.com/v3/businesses/search'
     params = {'limit': 5, 
@@ -21,7 +21,7 @@ def yelp_api_query(zipcode, categories, *args):
     req=requests.get(url, params=params, headers=headers)
 
     businesses = json.loads(req.text)
-    print(businesses)
+   
 
     return businesses
 

@@ -9,15 +9,25 @@
     thank u for logging in {{ user.first_name }}
     {{ user.user_id }}
     {{ user.email }}
+</div>
+<div> 
 <h2>{{ user.first_name }}'s Preferences</h2>
     {% for preference in preferences %}
     likes: {{ preference.preference_name }}
     {% endfor %}
 </div>
+<h3>THESE ARE SOME FAVORITES</h3>
+<div>
+    {{ user.first_name }}'s Favorite Restaurants
+    {% for item in favorite_restaurants %}
+    {{ json.loads(item.restaurant_info) }}
+    {% endfor %}
+</div>
+
 <!-- should go in the center of the page -->
 <a href='/search'>go make a Pot Luck search!🎰</a>
 <!-- should go in the center of the page -->
-<h3>THESE ARE SOME FAVORITES</h3>
+
 {#.. #}
 
 {% endblock %}

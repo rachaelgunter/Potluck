@@ -48,11 +48,11 @@ for n in range(3):
 
     user_prence = crud.create_user_preference(user_id, preference_id)
 
-key = ["_M5FVY4hkcuU-ASdVZPfRQ", "isIFCDLE3VIDJcqhVy_klA", "O-zwQQV8AExgdPoJiqjpDg"]
+# key = ["_M5FVY4hkcuU-ASdVZPfRQ", "isIFCDLE3VIDJcqhVy_klA", "O-zwQQV8AExgdPoJiqjpDg"]
 
-for n in range(3):
-    restaurant_id = choice(key)
-    user_id = randint(1, 21) 
-
-    fav_restaurant = crud.create_user_fav_restaurant(restaurant_id, user_id)   
+# for n in range(3):
+#     restaurant_id = choice(key)
+#     user_id = randint(1, 21) 
+    
+#     fav_restaurant = crud.create_user_fav_restaurant(restaurant_id, user_id)   
     

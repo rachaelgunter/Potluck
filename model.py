@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+import json
+from sqlalchemy.dialects.postgresql import JSON
 
 db = SQLAlchemy()
 
@@ -96,13 +98,13 @@ class UserFavoriteRestaurant(db.Model):
                             primary_key=True,
                             autoincrement=True,)
     restaurant_id = db.Column(db.String, nullable=False,)
-    restaurant_info = db.Column(db.String, nullable=False)
+    restaurant_info = db.Column(JSON, nullable=False, default=dict)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
 
-    user = db.relationship('User', backref = 'user_favorite_restaurants')
+    users = db.relationship('User', backref = 'user_favorite_restaurants')
 
     def __repr__(self):
-        return f'<UserFavoriteRestaurant favorite_restaurant_id = {self.favorite_restaurant_id} user_id = {self.user_id}>'
+        return f'<UserFavoriteRestaurant favorite_restaurant_id = {self.favorite_restaurant_id} restaurant_id = {self.restaurant_id} user_id = {self.user_id}>'
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///project', echo=True):

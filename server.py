@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 
 import os
 import requests
@@ -7,6 +7,7 @@ from model import connect_to_db
 import yelp
 import random
 from jinja2 import StrictUndefined
+import json
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -78,8 +79,6 @@ def create_user():
     user = crud.get_user_by_email(email)
     session['email'] = email
 
-    # if user in database user crud to get user by email
-    #     say that the user already exists and to log in
     if user:
         flash('this user already exists with this email')
 
@@ -92,15 +91,6 @@ def create_user():
         return render_template('quiz.html',
                                 user=user)
         
-        
-        # return render_template ('account.html',
-        #                         user=user)
-        #                 # first_name=first_name,
-                        # last_name=last_name,
-                        # email=email,
-                        # password=password,
-                        # over_21=over_21,
-                        # user_zipcode=user_zipcode)
 
     return redirect('/create_account')
 
@@ -144,7 +134,7 @@ def answer_quiz():
         open_to_all_prence = crud.create_user_preference_for_user(open_to_all, email)
     else:  
         pass 
-    # print(drink_prence)
+
     print(user) 
     preferences = crud.get_all_users_preferences(user.user_id)
     print(preferences)
@@ -159,18 +149,23 @@ def answer_quiz():
 def user_account_page():
     """lists info about the users account
         including preferences and fav restaurants"""
+    
     print(session)
-    # session['email'] = email
-    print(session)
-    # print(user)
 
     if 'email' in session:
         user = crud.get_user_by_email(session['email'])
         preferences = crud.get_all_users_preferences(user.user_id)
         print(preferences)
+        fave_restaurants = crud.get_users_favorites_restaurants(user.email)
+        print(fave_restaurants)
+        for item in fave_restaurants:
+            print(item.restaurant_info)
+            print(json.loads(item.restaurant_info))
+        
         return render_template ('account.html',
                                 user=user,
-                                preferences=preferences)
+                                preferences=preferences,
+                                favorite_restaurants=fave_restaurants)
 
     else:
         return redirect('/')
@@ -234,63 +229,32 @@ def rando_results():
                                     open_now, 
                                     reservations,)
 
-    print(businesses)
+    list =[]
+    print("^^^^^^^^^^^^", businesses)
+    
+    for business in businesses['businesses']:
+        list.append({
+                    "name": business["name"],
+                    "id": business["id"],
+                    "categories": business["categories"][0]['title'],
+                    "rating": business["rating"],
+                    "coordinates": business["coordinates"],
+                    "price": business["price"],
+                    "address": business["location"]["display_address"],
+                    "phone": business["display_phone"],
+                    "transactions": business["transactions"],
+        
+        })
 
-    first = [businesses['businesses'][0]['name'],
-                businesses['businesses'][0]['id'],
-                businesses['businesses'][0]['categories'][0]['title'],
-                businesses['businesses'][0]['rating'],
-                businesses['businesses'][0]['coordinates'],
-                businesses['businesses'][0]['price'],
-                businesses['businesses'][0]['location']['display_address'],
-                businesses['businesses'][0]['display_phone'],
-                businesses['businesses'][0]['transactions']]
-    second = [businesses['businesses'][1]['name'],
-                businesses['businesses'][1]['id'],
-                businesses['businesses'][1]['categories'][0]['title'],
-                businesses['businesses'][1]['rating'],
-                businesses['businesses'][1]['coordinates'],
-                businesses['businesses'][1]['price'],
-                businesses['businesses'][1]['location']['display_address'],
-                businesses['businesses'][1]['display_phone'],
-                businesses['businesses'][1]['transactions']]
-    third = [businesses['businesses'][2]['name'],
-                businesses['businesses'][2]['id'],
-                businesses['businesses'][2]['categories'][0]['title'],
-                businesses['businesses'][2]['rating'],
-                businesses['businesses'][2]['coordinates'],
-                businesses['businesses'][2]['price'],
-                businesses['businesses'][2]['location']['display_address'],
-                businesses['businesses'][2]['display_phone'],
-                businesses['businesses'][2]['transactions']]
-    fourth = [businesses['businesses'][3]['name'],
-                businesses['businesses'][3]['id'],
-                businesses['businesses'][3]['categories'][0]['title'],
-                businesses['businesses'][3]['rating'],
-                businesses['businesses'][3]['coordinates'],
-                businesses['businesses'][3]['price'],
-                businesses['businesses'][3]['location']['display_address'],
-                businesses['businesses'][3]['display_phone'],
-                businesses['businesses'][3]['transactions']]
-    fifth = [businesses['businesses'][4]['name'],
-                businesses['businesses'][4]['id'],
-                businesses['businesses'][4]['categories'][0]['title'],
-                businesses['businesses'][4]['rating'],
-                businesses['businesses'][4]['coordinates'],
-                businesses['businesses'][4]['price'],
-                businesses['businesses'][4]['location']['display_address'],
-                businesses['businesses'][4]['display_phone'],
-                businesses['businesses'][4]['transactions']]
-    list = [first, second, third, fourth, fifth] 
     
     singular_choice = random.choice(list)
-    print(singular_choice)
+    print("@@@@@@@", singular_choice)
     if businesses:
 
         return render_template ('search_results.html',
                                 rando = singular_choice,
                                 businesses=businesses,
-                                list = list)
+                                list = list,)
 
     else:
         flash('Make some selections first!')
@@ -299,7 +263,6 @@ def rando_results():
 ##################################################################################################################
 
 @app.route('/logout')
-# @login_required
 def logout():
     """logs out user by clearing session"""
     print(session)
@@ -311,18 +274,44 @@ def logout():
         pass
 ##################################################################################################################
 
-@app.route('/favorite')
+@app.route('/favorite', methods=['GET', 'POST'])
 def add_to_favorites():
     """adds a restaurant to your favorites"""
 
-    restaurant = request.args.get('rando')
+    
+
+    business = request.get_json()
+    yelp_id = business['id']
+    print("UUUUUUU", type(business))
+    print(business['name'])
+    print(business['id'])
 
     if session['email']:
         email = session['email']
-        restaurant_id = businesses['businesses'][0]['id']
-        crud.add_restaurant_to_favorites(email, restaurant_id, restaurant_info)
+        fave_rest = crud.add_restaurant_to_favorites(email, yelp_id, business)
+        user = crud.get_user_by_email(email)
+        preferences = crud.get_all_users_preferences(user.user_id)
+        print(fave_rest)
+        print(user)
 
-    
+        flash('Added to your favorites!')
+        return render_template('account.html',
+                                user=user,
+                                preferences=preferences
+                                )
+     
+    else:
+        return redirect ("/account")
+
+    print("UUUUUUU", business)
+    print(business['name'])
+    print(business['id'])
+
+
+
+    return jsonify('success')
+
+   
 ##################################################################################################################
 
 if __name__ == '__main__':

@@ -115,9 +115,21 @@ def add_restaurant_to_favorites(email, restaurant_id, restaurant_info):
     """add a restaurant to a list of users favorites"""
 
     user = get_user_by_email(email=email)
-    fav_restaurant = create_user_fav_restaurant(restaurant_id, user.user_id, restaurant_info)
+    restaurant = UserFavoriteRestaurant.query.filter(UserFavoriteRestaurant.restaurant_id==restaurant_id).all()
+    if not restaurant:
+        fav_restaurant = create_user_fav_restaurant(restaurant_id, user.user_id, restaurant_info)
+    print("!(!(!(!(!(!(!(", fav_restaurant.restaurant_id)
 
     return fav_restaurant
+
+def get_users_favorites_restaurants(email):
+
+    """get favorites restaurnats by user"""
+
+    user = get_user_by_email(email=email)
+    list_faves = UserFavoriteRestaurant.query.filter_by(user_id=user.user_id).all()
+
+    return list_faves
 
 
 if __name__ == '__main__':
