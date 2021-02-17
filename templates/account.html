@@ -13,8 +13,9 @@
 <div> 
 <h2>{{ user.first_name }}'s Preferences</h2>
     
+    likes: 
     {% for preference in preferences %}
-    likes: {{ preference.preference_name }}
+    {{ preference.preference_name }}
     {% endfor %}
 </div>
 <h3>THESE ARE SOME FAVORITES</h3>

@@ -80,14 +80,31 @@ def log_out():
 
     session.pop('email')
 
-def create_user_preference_for_user(preference_name, email):
+def create_user_preference_for_user(preferencename, email):
     """create a preference and user preference by user email"""
     
-    preference = create_preference(preference_name=preference_name)
     user = get_user_by_email(email=email)
-    user_prence = create_user_preference(user.user_id, preference.preference_id)
+    userpreferences = get_all_users_preferences(user_id=user.user_id)
+    list_prefs = []
+    for pref in userpreferences:
+        list_prefs.append(pref.preference_name)
+    print(list_prefs)
+    if preferencename not in list_prefs:
+        preference = create_preference(preference_name=preferencename)
+        user = get_user_by_email(email=email)
+        user_prence = create_user_preference(user.user_id, preference.preference_id)
+        print("OKOKOK", user_prence)
 
-    return user_prence
+    # preference_set = []
+    # prefs = get_all_users_preferences(user_id=user.user_id)
+    # print(preference_set)
+    # for pref in prefs:
+    #    preference_set.append(pref)
+    
+    # preference_set = set(preference_set)
+
+
+        return user_prence
 
 def get_all_users_preferences(user_id):
     """returns a list of all users preferences (user_preference_id)"""
@@ -98,7 +115,7 @@ def get_all_users_preferences(user_id):
         preference_id = preference.preference_id
         temp = Preference.query.get(preference_id)
         user_prefs.append(temp)
-    print(user_prefs)
+    # print(user_prefs)
 
     return user_prefs
 

@@ -5,11 +5,12 @@
 
 <body>
   <div>
+    
     <p style = "font-family:courier new,arial,helvetica;">
       <form id="rando">
         <div id="rando-result">
           <p id="restaurant-name">{{ rando['name'] }}</p>
-          <p id="restaurant-id">{{ rando['id'] }}</p>
+          <p id="restaurant-id" style="display:none">{{ rando['id'] }}</p>
           <p id="restaurant-categories">{{ rando['categories'] }}</p>
           <p id="restaurant-rating">{{ rando['rating'] }}</p>
           <p id="restaurant-coordinates">{{ rando['coordinates'] }}</p>
@@ -17,7 +18,6 @@
           <p id="restaurant-address">{{ rando['address'] }}</p>
           <p id="restaurant-phone">{{ rando['phone'] }}</p>
           <p id="restaurant-transactions">{{ rando['transactions'] }}</p>
-          <p>{{ rando }}</p>
       </div>
         <button value={{ rando['id'] }} id="favorite-restaurant" class="btn btn-primary">Add this restaurant to your favorites</button>
       
@@ -30,11 +30,20 @@
 <button onclick="resultsHidingFunction()">Click to see all 5!</button>
 <div class="showing-results" id="randos" style="display:none">
   
-    {{ list[0] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
-    {{ list[1] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
-    {{ list[2] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
-    {{ list[3] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
-    {{ list[4] }}<a href='/favorite'>Add this restaurant to your favorites</a><br/>
+  {% for item in list %}
+  {{ item['name'] }}
+  <p id="restaurant-id" style="display:none">{{ item['id'] }}</p>
+  {{ item['categories'] }}
+  {{ item['rating'] }}
+  {{ item['coordinates'] }}
+  {{ item['price'] }}
+  {{ item['address'] }}
+  {{ item['phone'] }}
+  {{ item['transactions'] }}
+  <br/><br/>
+  {% endfor %}
+
+    <a href='/favorite'>Add this restaurant to your favorites</a><br/>
     
     <h1>this is going to show all 5 of the search results</h1>
   

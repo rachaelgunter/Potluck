@@ -122,17 +122,17 @@ def answer_quiz():
         pass 
     wheel_chair_accessibile = request.form.get('wheel-chair-accessible')
     if wheel_chair_accessibile == "wheel_chair_accessible":
-        wheel_chair_accessibile_prence = crud.create_user_preference_for_user(wheel_chair_accessibile, email)
+        wheel_chair_accessibile_prence = crud.create_user_preference_for_user("wheel chair accessibile", email)
     else:  
         pass 
     gender_neutral_restrooms = request.form.get('gender-neutral-restrooms')
     if gender_neutral_restrooms == "gender_neutral_restrooms":
-        gender_neutral_restrooms_prence = crud.create_user_preference_for_user(gender_neutral_restrooms, email)
+        gender_neutral_restrooms_prence = crud.create_user_preference_for_user("gender neutral restrooms", email)
     else:  
         pass 
     open_to_all = request.form.get('open-to-all')
     if open_to_all == "open_to_all":
-        open_to_all_prence = crud.create_user_preference_for_user(open_to_all, email)
+        open_to_all_prence = crud.create_user_preference_for_user("open to all", email)
     else:  
         pass 
 
@@ -158,19 +158,24 @@ def user_account_page():
 
     if 'email' in session:
         user = crud.get_user_by_email(session['email'])
-        preferences = crud.get_all_users_preferences(user.user_id)
-        print(preferences)
-        print("@@@@@@@", session)
-        fave_restaurants = crud.get_users_favorites_restaurants(user.email)
-        print(fave_restaurants)
-        for item in fave_restaurants:
-            print(item.restaurant_info)
-            # print(json.loads(item.restaurant_info))
-        
-        return render_template ('account.html',
-                                user=user,
-                                preferences=preferences,
-                                favorite_restaurants=fave_restaurants)
+        if user:
+            print(user)
+            preferences = crud.get_all_users_preferences(user.user_id)
+            print(preferences)
+            print("@@@@@@@", session)
+            fave_restaurants = crud.get_users_favorites_restaurants(user.email)
+            print(fave_restaurants)
+            for item in fave_restaurants:
+                print(item.restaurant_info)
+                # print(json.loads(item.restaurant_info))
+            
+            return render_template ('account.html',
+                                    user=user,
+                                    preferences=preferences,
+                                    favorite_restaurants=fave_restaurants)
+        if user == None:
+            flash("make an account!")
+            return redirect('/')
 
     else:
         return redirect('/')
@@ -182,12 +187,22 @@ def search_page():
     """takes in info about what to search yelp for """
 
     print(session)
+    user = crud.get_user_by_email(session['email'])
+    print(user)
+
+    if user == None:
+        flash("not logged in!")
+        return redirect('/')
   
     return render_template('search.html')
 
 @app.route('/search_results')
 def rando_results():
     """shows the 5 full results from the search"""
+
+    print(session)
+    user = crud.get_user_by_email(session['email'])
+    print(user)
 
     zipcode = request.args.get('user_zipcode')
     categories = request.args.get('categories')
@@ -238,32 +253,42 @@ def rando_results():
     print("^^^^^^^^^^^^", businesses)
     
     for business in businesses['businesses']:
+        # print(business["price"])
         list.append({
                     "name": business["name"],
                     "id": business["id"],
                     "categories": business["categories"][0]['title'],
                     "rating": business["rating"],
                     "coordinates": business["coordinates"],
-                    "price": business["price"],
+                    "price": f'price: {business["price"]}',
                     "address": business["location"]["display_address"],
                     "phone": business["display_phone"],
-                    "transactions": business["transactions"],
-        
-        })
+                    "transactions": business["transactions"],})
 
-    
-    singular_choice = random.choice(list)
-    print("@@@@@@@", singular_choice)
-    if businesses:
+    print(len(list))
+    print(list)
+    if len(list) == 5:
+        singular_choice = random.choice(list)
+        print("@@@@@@@", singular_choice)
+        if businesses:
 
-        return render_template ('search_results.html',
-                                rando = singular_choice,
-                                businesses=businesses,
-                                list = list,)
+            return render_template ('search_results.html',
+                                    rando = singular_choice,
+                                    businesses=businesses,
+                                    list = list,)
 
-    else:
-        flash('Make some selections first!')
-        return render_template('search.html')
+        else:
+            flash('Make some selections first!')
+            return render_template('search.html')
+
+
+    if len(list) < 5:
+        return render_template ('search_results_small.html',
+                                    businesses=businesses,
+                                    list=list) 
+
+    return redirect('/search')
+
 
 ##################################################################################################################
 
@@ -330,6 +355,23 @@ def display_favorite_restaurants():
     return render_template('favrestpage.html',
                             user=user,
                             favorite_restaurants=fave_rest)
+
+##################################################################################################################
+
+@app.route('/random_favorite', methods=['GET', 'POST'])
+def gets_random_from_favorites():
+    """random choice from users favorites"""
+
+    fave_rests = crud.get_users_favorites_restaurants(session['email'])
+    user = crud.get_user_by_email(session['email'])
+    print(fave_rests)
+    fave_rest_random_choice = random.choice(fave_rests)
+    fave_rest = crud.get_users_favorites_restaurants(user.email)
+
+    return render_template('favrestpage.html',
+                            user=user,
+                            favorite_restaurants=fave_rest,
+                            fave_rest_random_choice=fave_rest_random_choice)
 
 ##################################################################################################################
 
