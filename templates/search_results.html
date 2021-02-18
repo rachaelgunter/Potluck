@@ -5,7 +5,7 @@
 
 <body>
   <div>
-    
+    <h1>this is going to show one of the search results</h1>
     <p style = "font-family:courier new,arial,helvetica;">
       <form id="rando">
         <div id="rando-result">
@@ -20,36 +20,27 @@
           <p id="restaurant-transactions">{{ rando['transactions'] }}</p>
       </div>
         <button value={{ rando['id'] }} id="favorite-restaurant" class="btn btn-primary">Add this restaurant to your favorites</button>
-      
-    </form>
-      </p>
-
-  <h1>this is going to show one of the search results</h1>
-</div>
+      </form>
 
 <button onclick="resultsHidingFunction()">Click to see all 5!</button>
-<div class="showing-results" id="randos" style="display:none">
-  
-  {% for item in list %}
-  {{ item['name'] }}
-  <p id="restaurant-id" style="display:none">{{ item['id'] }}</p>
-  {{ item['categories'] }}
-  {{ item['rating'] }}
-  {{ item['coordinates'] }}
-  {{ item['price'] }}
-  {{ item['address'] }}
-  {{ item['phone'] }}
-  {{ item['transactions'] }}
-  <br/><br/>
-  {% endfor %}
 
-    <a href='/favorite'>Add this restaurant to your favorites</a><br/>
-    
-    <h1>this is going to show all 5 of the search results</h1>
-  
-  
-  <a href='/search_results'>view all 5 results </h2></a>
+<div class="more_results" id="randos" style="display:none">
+{% for item in list %}
+<form id="more">
+  <p id="restaurant-name">{{ item['name'] }}</p>
+  <p id="restaurant-id" style="display:none">{{ item['id'] }}</p>
+  <p id="restaurant-categories">{{ item['categories'] }}</p>
+  <p id="restaurant-rating">{{ item['rating'] }}</p>
+  <p id="restaurant-coordinates">{{ item['coordinates'] }}></p>
+  <p id="restaurant-price">{{ item['price'] }}</p>
+  <p id="restaurant-address">{{ item['address'] }}</p>
+  <p id="restaurant-phone">{{ item['phone'] }}</p>
+  <p id="restaurant-transactions">{{ item['transactions'] }}</p>
+  <button value={{ item['id'] }} id="favorite-restaurant-2" class="btn btn-primary">Add this restaurant to your favorites</button><br/>
+</form>
+{% endfor %}
 </div>
+
 <script src="/static/searchResults.js"></script>
 </body>
 {% endblock %}

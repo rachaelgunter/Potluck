@@ -6,12 +6,26 @@ import model
 import crud
 import server
 import psycopg2
+import bcrypt
+import scrypt
 
 os.system('dropdb project')
 os.system('createdb project')
 
 model.connect_to_db(server.app)
 model.db.create_all()
+
+# def hashed(password):
+#     print("$$$$$$$", password)
+#     encrypted_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(10))
+#     print('this is encrytped pw' , encrypted_password)
+#     return encrypted_password
+
+# def hashed(password, maxtime=0.5, datalength=64):
+#     print("$$$$$$$", password)
+#     encrypted_password = scrypt.encrypt(os.urandom(datalength), password, maxtime=maxtime)
+#     print('this is encrytped pw' , encrypted_password)
+#     return encrypted_password
 
 #seeding traits 
 for n in range(3):
@@ -31,10 +45,11 @@ for n in range(1, 21):
     last_name = f'last-{n}'
     email = f'user{n}@test.com'
     password = 'test'
+    password_hashed = crud.hashed(password)
     over_21 = choice([True, False])
     user_zipcode = '11220'
 
-    user = crud.create_user(first_name, last_name, email, password, over_21, user_zipcode)
+    user = crud.create_user(first_name, last_name, email, password_hashed, over_21, user_zipcode)
 
 for n in range(3):
     user_id = randint(1, 21)

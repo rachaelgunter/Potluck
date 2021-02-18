@@ -29,15 +29,16 @@
     
     view all your favorites and their info<br/>
     <form action="/favorite_restaurants">
-    <button value=favorite_restaurants id="favorite-restaurants">View Favorites</button>
+        <a href="/favorite_restaurants">
+    <button id="favorite-restaurants">View Favorites</button>
+</a>
 </form>
 </div>
 
 <!-- should go in the center of the page -->
-<a href='/search'>go make a Pot Luck search!🎰</a>
+<button id="search"><a href='/search'>go make a Pot Luck search!🎰</a></button>
 <!-- should go in the center of the page -->
 
-{#.. #}
 
 {% endblock %}
 {% endblock %}

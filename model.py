@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 import json
 from sqlalchemy.dialects.postgresql import JSON
+import bcrypt
+import scrypt
 
 db = SQLAlchemy()
 
@@ -15,13 +17,19 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False,)
     last_name = db.Column(db.String(50), nullable=False,)
     email = db.Column(db.String(50), nullable=False,)
-    password = db.Column(db.String(20), nullable=False,)
+    password_hashed = db.Column(db.Binary(128), nullable=False,)
     over_21 = db.Column(db.Boolean, nullable=False, 
                         unique=False, default=True,)
     user_zipcode = db.Column(db.String(5), nullable=False,)
 
     def __repr__(self):
         return f'<User user_id = {self.user_id} email = {self.email}>'
+
+    # Check if password matches with hashed password
+    def check_password(self, password):
+        encoded_password = password.encode("utf-8")
+        return bcrypt.checkpw(encoded_password, self.password_hashed)
+        
 
 
 class PersonalityTrait(db.Model):

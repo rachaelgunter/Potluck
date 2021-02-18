@@ -8,14 +8,17 @@ function resultsHidingFunction() {
     }
   }
 
-  function additionalSearchOptions() {
-    var x = document.getElementById("search-options");
-    if (x.style.display === "anone") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
+
+// this is for the more options before the search //
+
+function additionalSearchOptions() {
+  var x = document.getElementById("#search-options");
+  if (x.style.display === "anone") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
   }
+}
 
 $(document).ready( () => {
   $('#more-choices').click((event) => {
@@ -24,12 +27,12 @@ $(document).ready( () => {
   })
 })
 
+// function for adding a favorite user restaurant //
+
 function favoriteRestaurant(evt) {
   evt.preventDefault();
 
   let url = "/favorite";
-  //let url2 = "/account" mehbeh
-  // let formData = {"businesses": $("#favorite-restaurant").html()};
   let formData = {
     "name": $("#restaurant-name").html(),
     "id": $("#restaurant-id").html(),
@@ -51,16 +54,14 @@ function favoriteRestaurant(evt) {
   })
   .then((response) => response.json())
   .then((data) => console.log(data));
-
-
 }
-    
-$('#favorite-restaurant').on('click', favoriteRestaurant);
+
+// view the users favorite restaurants on a page //
 
 function viewFaves() {
   evt.preventDefault();
 
-  let url = "/favorite_restaurants"
+  let url = "/account"
   let formData = {
     "Restaurant": $("#restaurant-name").html()
   }
@@ -73,3 +74,42 @@ function viewFaves() {
     body: JSON.stringify(formData)
   })
 }
+
+// make a random choice from the favorite restaurants //
+
+function randomChoiceFaveRest() {
+
+  let url = "/random_favorite";
+  $.get(url, (resp) => { 
+    console.log(resp);
+  $("#fave-rest-random-choice").html(resp.restaurant_info['name'])
+  $("#fave-rest-random-choice").append(resp.restaurant_info.categories)
+  $("#fave-rest-random-choice").append(resp.restaurant_info.phone)
+  $("#fave-rest-random-choice").append(resp.restaurant_info.rating)
+  $("#fave-rest-random-choice").append(resp.restaurant_info.address)
+  $("#fave-rest-random-choice").append(resp.restaurant_info.transactions)
+  });
+}
+
+
+
+
+
+
+
+// fetch(url, {
+//   method: 'POST',
+//   headers: {'Content-Type': 'application/json'},
+//   body: JSON.stringify(formData)
+// })
+
+//event listeners 
+
+$('#favorite-restaurant').on('click', favoriteRestaurant);
+
+$('#favorite-restaurant-2').on('click', favoriteRestaurant);
+
+$('#favorite-restaurants').on('click', viewFaves);
+
+// $('#random-favorite').on('click', randomChoiceFaveRest);
+

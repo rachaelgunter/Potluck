@@ -8,12 +8,14 @@ import yelp
 import random
 from jinja2 import StrictUndefined
 import json
+import bcrypt
+import scrypt
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 SESSION_TYPE = 'null'
-# Session(app)
+
 
 ##################################################################################################################
 
@@ -28,32 +30,30 @@ def log_in():
     """displays homepage and log in"""
 
     form_email = request.form.get("login_email")
-    form_password = request.form.get("login_password")
-
     user = crud.get_user_by_email(form_email)
-    print("*******", user)
 
     if user:
-        if form_password == user.password: 
-            flash(f"logging in!")
+        if user.check_password(request.form.get("login_password")): 
+            session['email'] = user.email
             print(user)
-            session['email'] = form_email
-            print(session)
-            print(session['email']) 
             preferences = crud.get_all_users_preferences(user.user_id)
             print(preferences)
-            if preferences:
+            print(len(preferences))
+            fave_rest = crud.get_users_favorites_restaurants(user.email)
+            if len(preferences) > 0:
+                flash(f"logging in!")
                 return render_template('account.html',
                                     user=user,
-                                    preferences=preferences,)
+                                    preferences=preferences,
+                                    favorite_restaurants=fave_rest)
             else:
-                return render_template('account.html',
-                                user=user,)                           
-        if form_password != user.password:
+                return redirect('/')
+
+        else:
             flash(f'incorrect password')
             return render_template('homepage.html')
         
-    if user == None:
+    if not user:
         flash(f"no user with the {form_email} found! try making an account!")
     
     return redirect('/') 
@@ -73,7 +73,9 @@ def create_user():
     first_name = request.form.get("first_name")
     last_name = request.form.get("last_name")
     email = request.form.get("email")
-    password = request.form.get("password")
+    email = email.lower()
+    # password = request.form.get("password")
+    # password_hashed = crud.hashed(request.form.get("password"))
     over_21 = request.form.get("over_21")
     user_zipcode = request.form.get("user_zipcode")
 
@@ -88,7 +90,8 @@ def create_user():
             over_21 = True
         if over_21 == ("False"):
             over_21 = False
-        user = crud.create_user(first_name, last_name, email, password, over_21, user_zipcode)
+        user = crud.create_user(first_name, last_name, email, 
+                                crud.hashed(request.form.get("password")), over_21, user_zipcode)
         return render_template('quiz.html',
                                 user=user)
         
@@ -159,26 +162,27 @@ def user_account_page():
     if 'email' in session:
         user = crud.get_user_by_email(session['email'])
         if user:
-            print(user)
+            print("1234", user)
             preferences = crud.get_all_users_preferences(user.user_id)
-            print(preferences)
-            print("@@@@@@@", session)
-            fave_restaurants = crud.get_users_favorites_restaurants(user.email)
-            print(fave_restaurants)
-            for item in fave_restaurants:
-                print(item.restaurant_info)
-                # print(json.loads(item.restaurant_info))
-            
-            return render_template ('account.html',
-                                    user=user,
-                                    preferences=preferences,
-                                    favorite_restaurants=fave_restaurants)
-        if user == None:
+            print(type(preferences))
+            print(len(preferences))
+            if len(preferences) > 0: 
+                print("@@@@@@@", session)
+                fave_restaurants = crud.get_users_favorites_restaurants(user.email)
+                print(fave_restaurants)
+                # for item in fave_restaurants:
+                #     print(item.restaurant_info)
+                
+                return render_template ('account.html',
+                                        user=user,
+                                        preferences=preferences,
+                                        favorite_restaurants=fave_restaurants)
+        if not user:
             flash("make an account!")
             return redirect('/')
 
-    else:
-        return redirect('/')
+    
+    return redirect('/')
 
 ##################################################################################################################
 
@@ -190,7 +194,7 @@ def search_page():
     user = crud.get_user_by_email(session['email'])
     print(user)
 
-    if user == None:
+    if not user:
         flash("not logged in!")
         return redirect('/')
   
@@ -251,43 +255,43 @@ def rando_results():
 
     list =[]
     print("^^^^^^^^^^^^", businesses)
-    
-    for business in businesses['businesses']:
-        # print(business["price"])
-        list.append({
-                    "name": business["name"],
-                    "id": business["id"],
-                    "categories": business["categories"][0]['title'],
-                    "rating": business["rating"],
-                    "coordinates": business["coordinates"],
-                    "price": f'price: {business["price"]}',
-                    "address": business["location"]["display_address"],
-                    "phone": business["display_phone"],
-                    "transactions": business["transactions"],})
+    if 'error' in businesses:   
+        return redirect('/search')
+    if businesses:
+        for business in businesses['businesses']:
+            # print(business["price"])
+            list.append({
+                        "name": business["name"],
+                        "id": business["id"],
+                        "categories": business["categories"][0]['title'],
+                        "rating": business["rating"],
+                        "coordinates": business["coordinates"],
+                        "price": f'price: {business["price"]}',
+                        "address": business["location"]["display_address"],
+                        "phone": business["display_phone"],
+                        "transactions": business["transactions"],})
 
-    print(len(list))
-    print(list)
-    if len(list) == 5:
-        singular_choice = random.choice(list)
-        print("@@@@@@@", singular_choice)
-        if businesses:
+        print(len(list))
+        print(list)
+        if len(list) == 5:
+            singular_choice = random.choice(list)
+            print("@@@@@@@", singular_choice)
+            if businesses:
 
-            return render_template ('search_results.html',
-                                    rando = singular_choice,
-                                    businesses=businesses,
-                                    list = list,)
+                return render_template ('search_results.html',
+                                        rando = singular_choice,
+                                        businesses=businesses,
+                                        list = list,)
 
-        else:
-            flash('Make some selections first!')
-            return render_template('search.html')
+            else:
+                flash('Make some selections first!')
+                return render_template('search.html')
 
 
-    if len(list) < 5:
-        return render_template ('search_results_small.html',
-                                    businesses=businesses,
-                                    list=list) 
-
-    return redirect('/search')
+        if len(list) < 5:
+            return render_template ('search_results_small.html',
+                                        businesses=businesses,
+                                        list=list) 
 
 
 ##################################################################################################################
@@ -304,39 +308,35 @@ def logout():
         pass
 ##################################################################################################################
 
-@app.route('/favorite', methods=['GET', 'POST'])
+@app.route('/favorite', methods=['POST'])
 def add_to_favorites():
     """adds a restaurant to your favorites"""
-
-    
 
     business = request.get_json()
     yelp_id = business['id']
     print("UUUUUUU", type(business))
     print(business['name'])
     print(business['id'])
+    print(session['email'])
 
     if session['email']:
-        email = session['email']
-        fave_rest = crud.add_restaurant_to_favorites(email, yelp_id, business)
-        user = crud.get_user_by_email(email)
-        preferences = crud.get_all_users_preferences(user.user_id)
-        print(fave_rest)
+        user = crud.get_user_by_email(session['email'])
         print(user)
+        fave_rest = crud.create_user_fav_restaurant(yelp_id, user.email, business)
+        print(fave_rest)
+        preferences = crud.get_all_users_preferences(user.user_id)
+        print(preferences)
+        list_faves = crud.get_users_favorites_restaurants(user.email)
 
         flash('Added to your favorites!')
         return render_template('account.html',
                                 user=user,
-                                preferences=preferences
+                                preferences=preferences,
+                                favorite_restaurants=list_faves,
                                 )
      
     else:
         return redirect ("/account")
-
-    print("UUUUUUU", business)
-    print(business['name'])
-    print(business['id'])
-
 
 
     return jsonify('success')
@@ -347,14 +347,15 @@ def add_to_favorites():
 @app.route('/favorite_restaurants', methods=['GET', 'POST'])
 def display_favorite_restaurants():
     """displays all favorite restaurants infomation"""
+    print(session['email'])
     if session['email']:
         user = crud.get_user_by_email(session['email'])
         fave_rest = crud.get_users_favorites_restaurants(user.email)
         print("#######3", fave_rest)
 
-    return render_template('favrestpage.html',
-                            user=user,
-                            favorite_restaurants=fave_rest)
+        return render_template('favrestpage.html',
+                                user=user,
+                                favorite_restaurants=fave_rest)
 
 ##################################################################################################################
 
@@ -362,16 +363,15 @@ def display_favorite_restaurants():
 def gets_random_from_favorites():
     """random choice from users favorites"""
 
-    fave_rests = crud.get_users_favorites_restaurants(session['email'])
     user = crud.get_user_by_email(session['email'])
-    print(fave_rests)
+    fave_rests = crud.get_users_favorites_restaurants(user.email)
+    print("1",fave_rests)
     fave_rest_random_choice = random.choice(fave_rests)
-    fave_rest = crud.get_users_favorites_restaurants(user.email)
+    print("2",fave_rests)
+    print(fave_rest_random_choice)
+    resp = {"restaurant_info" : fave_rest_random_choice.restaurant_info }
 
-    return render_template('favrestpage.html',
-                            user=user,
-                            favorite_restaurants=fave_rest,
-                            fave_rest_random_choice=fave_rest_random_choice)
+    return jsonify(resp)
 
 ##################################################################################################################
 
