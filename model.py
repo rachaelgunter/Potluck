@@ -4,7 +4,12 @@ from sqlalchemy.dialects.postgresql import JSON
 import bcrypt
 import scrypt
 
+
 db = SQLAlchemy()
+
+def hashed(password):
+    encrypted_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(10))
+    return encrypted_password
 
 class User(db.Model):
     """model for users"""
@@ -29,6 +34,20 @@ class User(db.Model):
     def check_password(self, password):
         encoded_password = password.encode("utf-8")
         return bcrypt.checkpw(encoded_password, self.password_hashed)
+
+    new_password = None
+
+    # def update_password(self, old_password, new_password):
+    # # if current_password != (old)pawssowrd 
+    #     if self.password_hashed != hashed(old_password):
+    #     #  print "invalis password"
+    #         print("Invalid password")
+
+    #     # if current_password = (old)password
+    #     if self.password_hashed == old_password:
+    #         # new_password = (old)password 
+    #         self.password_hashed = hashed(new_password)
+    #     return self.password_hashed
         
 
 
@@ -102,10 +121,9 @@ class UserFavoriteRestaurant(db.Model):
 
     __tablename__ = "user_favorite_restaurants"
 
-    favorite_restaurant_id = db.Column(db.Integer,
-                            primary_key=True,
-                            autoincrement=True,)
-    restaurant_id = db.Column(db.String, nullable=False,)
+    restaurant_id = db.Column(db.String, nullable=False,
+                            primary_key=True)
+    favorite_restaurant_id = db.Column(db.Integer)                      
     restaurant_info = db.Column(JSON, nullable=False, default=dict)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
 

@@ -21,9 +21,27 @@ def yelp_api_query(zipcode, categories, *args):
     req=requests.get(url, params=params, headers=headers)
 
     businesses = json.loads(req.text)
-   
 
+    print(type(businesses))
+    for business in businesses['businesses']:
+        if "price" not in business:
+            business['price'] = "$*"
+        
+    
+    # businesses = businesses['businesses']
+            
     return businesses
+
+# business = {"name": business["name"]
+#                     "id": business["id"],
+#                     "categories": business["categories"][0]['title'],
+#                     "rating": business["rating"],
+#                     "coordinates": business["coordinates"],
+#                     "price": f'price: $$$$$$$',
+#                     "address": business["location"]["display_address"],
+#                     "phone": business["display_phone"],
+#                     "transactions": business["transactions"],}
+
 
 
 

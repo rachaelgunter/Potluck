@@ -92,17 +92,6 @@ function randomChoiceFaveRest() {
 }
 
 
-
-
-
-
-
-// fetch(url, {
-//   method: 'POST',
-//   headers: {'Content-Type': 'application/json'},
-//   body: JSON.stringify(formData)
-// })
-
 //event listeners 
 
 $('#favorite-restaurant').on('click', favoriteRestaurant);
@@ -112,4 +101,5 @@ $('#favorite-restaurant-2').on('click', favoriteRestaurant);
 $('#favorite-restaurants').on('click', viewFaves);
 
 // $('#random-favorite').on('click', randomChoiceFaveRest);
+
 

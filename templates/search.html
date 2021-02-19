@@ -1,55 +1,67 @@
 {% extends 'base.html' %}
 {%block title %}search{% endblock %}
-<!-- {% block content %} -->
+{% block content %}
 {% block body %}
-<body>
-<h1>LET'S SEARCH FOR YOUR DINNER</h1>
-<form action = '/search_results'>
-    <p>
-    <input type="text" name="user_zipcode">
-    <label>zipcode</label>
-  </p><p>
-    <input type="text" name="categories">
-    <label>cuisine</label>
-  </p><p>
-    <input type="text" name="address">
-    <label>close to this address</label>
-  </p><p>
-    <input type="text" name="price">
-    <label>$, $$, $$$ or $$$$</label>
-  </p>
-  <div class="showing-results" id="search-options" style="display:none"> 
-  <p>
-    <select name="hot-and-new">
-      <option value="False">No I like tried and true</option>
-      <option value="True">HELL YES</option>
-    </select>
-    <label>The whole point of Rando is to try new things. Want to look for hot-n-new restaurants in your area? ;)</label>
-  </p>{#<p>
-    <select name="deals">
-      <option value="False">Naw</option>
-      <option value="True">Yep</option>
-    </select>
-    <label>Want to prioitize restaurants with deals going on?</label>
-  </p>..#}<p>
-    <select name="open-now">
-      <option value="False">Nope</option>
-      <option value="True">Yep</option>
-    </select>
-    <label>Does it need to be open right now?</label>
-  </p><p>
-    <select name="reservation">
-      <option value="False">Nope</option>
-      <option value="True">Yep</option>
-    </select>
-    <label>Does you want to be able to make a rezzie?</label>
-  </p></div><br/><br/>
-    <button id="more-choices" type="button">Make more choices!</button> 
-  </div><br/><br/>
-    <button id="search-results" type="submit">PATHWAY TO YOUR RESULTS</button>
-  </form>
-</body>
-{% endblock %}
-{% endblock %}
+<div class="container">
+  <div class="row">
+    <div class="col-4" id="search-image">
+    </div>
+      <div class="col-8" id="search-page">
+        <p class="card-text">
+        <div class="form-group">
+          <form action = '/search_results'>
+          <p>
+          <label for="zipcode">zipcode</label>
+          <input type="text" name="zipcode" class="form-control">
+          </p><p>
+          <label for="categories">cuisine</label>
+          <input type="text" name="categories" class="form-control">
+          </p><p>
+          <label for="address">close to this address</label>
+          <input type="text" name="address" class="form-control">
+          </p><p>
+          <label for="price">$, $$, $$$ or $$$$</label>
+          <input type="text" name="price" class="form-control">
+          </p>
+              <div class="showing-results" id="search-options" style="display:none"> 
+              <p>
+              <label for="hot-and-new">The whole point of Rando is to try new things. Want to look for hot-n-new restaurants in your area? ;)</label>
+              <select name="hot-and-new">
+              <option value="False">No I like tried and true</option>
+              <option value="True">HELL YES</option>
+              </select>
+                {#
+                <label for="deals">Want to prioitize restaurants with deals going on?</label>
+                <select name="deals">
+                <option value="False">Naw</option>
+                <option value="True">Yep</option>
+                </select>..#}<p>
+              <label for="open-now">Does it need to be open right now?)</label>
+              <select name="open-now">
+              <option value="False">Nope</option>
+              <option value="True">Yep</option>
+              </select>
+              </p><p>
+              <label for="reservation">Does you want to be able to make a rezzie?</label>
+              <select name="reservation">
+              <option value="False">Nope</option>
+              <option value="True">Yep</option>
+              </select>
+              </p>
+              </div>
+            <button id="more-choices" type="button">Make more choices!</button> 
+            <br/><br/>
+            <button id="search-results" type="submit">PATHWAY TO YOUR RESULTS</button>
+            <br/>
+          </form>
+        </div>
+        <div class="col-0">
+        </div>
+      </p>
+    </div>
+  </div>
+</div>
 
+{% endblock %}
+{% endblock %}
 

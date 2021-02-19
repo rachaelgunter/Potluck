@@ -1,44 +1,74 @@
 {% extends 'base.html' %}
-{%block title %}account page {% endblock %}
-<!-- {% block content %} -->
+{%block title %}{% endblock %}
+{% block content %}
 {% block body %}
-
-<div>
-    
-<h1>THIS IS AN ACCOUNT USERS PROFILE PAGE</h1>
-    thank u for logging in {{ user.first_name }}
-    {{ user.user_id }}
-    {{ user.email }}
+<div id="account-page" class="container-fluid">
+<div class="container">
+    <div class="row">
+        <div class="col-5">
+            <div class="card">
+                <h4 class="card-header">Hello, {{ user.first_name }}!<br/>
+                Account info.</h4>
+                email: {{ user.email }}
+            </div>
+        </div>
+        <div class="col-4" id="account-page-preferences">
+            <div class="card">
+                <h4 class="card-header">{{ user.first_name }}'s Preferences</h4>
+                likes: 
+                    {% for preference in preferences %}
+                    {{ preference.preference_name }}
+                    {% endfor %}
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <button id="preferences"a href="#" class="btn btn-primary">edit preferences</a></button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-6" id="account-page-fave-restaurants">
+            <div class="card">
+                <h4 class="card-header">{{ user.first_name }}'s Favorite Restaurants</h4>
+                <h4 class="card-title">{% if favorite_restaurants %}
+                    {% for item in favorite_restaurants %}
+                    <p id="restaurant-name">{{ item.restaurant_info['name'] }}</p>
+                    {% endfor %}
+                    {% endif %}</h4>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                view all your favorites and their info<br/>
+                        <form action="/favorite_restaurants">
+                        <a href="/favorite_restaurants">
+                            <button id="favorite-restaurants" class="btn btn-primary btn-lg"><a href='/favorites_restaurants'>View Favorites</a></button>
+                        </form>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <button id="account_page_search" class="btn btn-primary btn-lg"><a href='/search'>go make a Pot Luck search!🎰</a></button>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+            </div>
+        </div>
+    </div>
 </div>
-<div> 
-<h2>{{ user.first_name }}'s Preferences</h2>
-    
-    likes: 
-    {% for preference in preferences %}
-    {{ preference.preference_name }}
-    {% endfor %}
 </div>
-<h3>THESE ARE SOME FAVORITES</h3>
-<div>
-    {{ user.first_name }}'s Favorite Restaurants
-    {% if favorite_restaurants %}
-    {% for item in favorite_restaurants %}
-    <p id="restaurant-name">{{ item.restaurant_info['name'] }}</p>
-    {% endfor %}
-    {% endif %}
-    
-    view all your favorites and their info<br/>
-    <form action="/favorite_restaurants">
-        <a href="/favorite_restaurants">
-    <button id="favorite-restaurants">View Favorites</button>
-</a>
-</form>
-</div>
-
-<!-- should go in the center of the page -->
-<button id="search"><a href='/search'>go make a Pot Luck search!🎰</a></button>
-<!-- should go in the center of the page -->
 
 
 {% endblock %}
 {% endblock %}
+

@@ -1,38 +1,57 @@
 {% extends 'base.html' %}
 {%block title %}create an account{% endblock %}
-<!-- {% block content %} -->
+{% block content %}
 {% block body %}
-<div>
-<form action = '/create_account' method='POST'>
-    <p>
-    <input type="text" name="first_name">
-    <label>First Name</label>
-  </p>
-  <p>
-    <input type="text" name="last_name">
-    <label>Last Name</label>
-  </p>
-  <p>
-    <input type="text" name="email">
-    <label>Email</label>
-  </p>
-  <p>
-    <input type="password" name="password">
-    <label>Password</label>
-  </p>
-  <p>
-    <select name = "over_21">
-        <option value = "True">Yes</option>
-        <option value = "False">No</option>
-    </select>
-    <label>over 21?</label>
-  </p>
-  <p>
-    <input type="text" name="user_zipcode">
-    <label>Zipcode</label>
-  </p>
-    <button type="submit">create account</button>
-  </form>
+<div class="container">
+  <div class="d-flex justify-content-center">
+  <div class="card">
+      <h5 class="card-header">Create a Potluck Account!</h5>
+        <div class="form-group">
+          <div class="card-body">
+            <p class="card-text">
+              <div class="form-group">
+                <form action='/create_account' method='POST'>
+                <p>
+                <label for="first_name">first name</label>
+                <input type="text" name="first_name" class="form-control">
+                </p>
+                <p>
+                <label for="first_name">last name</label>
+                <input type="text" name="last_name" class="form-control">
+                </p>
+                <p>
+                  <label for="email">email</label>
+                  <input type="text" name="email" class="form-control" placeholder="email@example.com">
+                  </p>
+                <p>
+                <label for="password">password</label>
+                <input type="password" name="password" class="form-control">
+                </p>
+                <p>
+                <label for="user_zipcode">zipcode</label>
+                <input type="text" name="user_zipcode" class="form-control">
+                </p>
+                <p>
+                <label for="user_zipcode">over 21?</label>
+                <select name = "over_21">
+                  <option value = "True">Yes</option>
+                  <option value = "False">No</option>
+                </select>
+                </p>
+                </p>
+                <button type="submit" class="btn btn-primary btn-lg">create account</button>
+                </form>
+              </div>
+            </p>
+          </div>
+        </div>
+    </div>
+  </div>
 </div>
+<br/>
+
 {% endblock %}
 {% endblock %}
+
+
+

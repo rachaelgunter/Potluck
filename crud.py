@@ -61,23 +61,12 @@ def create_user_fav_restaurant(restaurant_id, email, restaurant_info):
         user_fav_rest = UserFavoriteRestaurant(restaurant_id=restaurant_id, user_id=user.user_id, restaurant_info=restaurant_info)
         db.session.add(user_fav_rest)
         db.session.commit()
+        print("!(!(!(!(!(!(!(", user_fav_rest.restaurant_id)
 
         return user_fav_rest
     else:
         pass
 
-
-
-    # def add_restaurant_to_favorites(email, restaurant_id, restaurant_info):
-    # """add a restaurant to a list of users favorites"""
-
-    # user = get_user_by_email(email=email)
-    # restaurant = UserFavoriteRestaurant.query.filter(UserFavoriteRestaurant.restaurant_id==restaurant_id).all()
-    # if not restaurant:
-    #     fav_restaurant = create_user_fav_restaurant(restaurant_id, user.user_id, restaurant_info)
-    #     print("!(!(!(!(!(!(!(", fav_restaurant.restaurant_id)
-
-    #     return fav_restaurant
 
 def get_user_by_email(email):
     """returns user_id from email"""
@@ -114,15 +103,6 @@ def create_user_preference_for_user(preferencename, email):
         user_prence = create_user_preference(user.user_id, preference.preference_id)
         print("OKOKOK", user_prence)
 
-    # preference_set = []
-    # prefs = get_all_users_preferences(user_id=user.user_id)
-    # print(preference_set)
-    # for pref in prefs:
-    #    preference_set.append(pref)
-    
-    # preference_set = set(preference_set)
-
-
         return user_prence
 
 def get_all_users_preferences(user_id):
@@ -139,25 +119,6 @@ def get_all_users_preferences(user_id):
     return user_prefs
 
 
-# def get_users_preferences(user_id):
-#     """returns a list of users preferences"""
-    
-#     user_preference = UserPreference.query.filter(User.user_id==user_id).first()
-#     preferences = Preference.query.filter(user_preference.preference_id==user_preference.preference_id).all()
-
-#     return preferences
-
-# def add_restaurant_to_favorites(email, restaurant_id, restaurant_info):
-#     """add a restaurant to a list of users favorites"""
-
-#     user = get_user_by_email(email=email)
-#     restaurant = UserFavoriteRestaurant.query.filter(UserFavoriteRestaurant.restaurant_id==restaurant_id).all()
-#     if not restaurant:
-#         fav_restaurant = create_user_fav_restaurant(restaurant_id, user.user_id, restaurant_info)
-#         print("!(!(!(!(!(!(!(", fav_restaurant.restaurant_id)
-
-#         return fav_restaurant
-
 def get_users_favorites_restaurants(email):
 
     """get favorites restaurnats by user"""
@@ -170,6 +131,10 @@ def get_users_favorites_restaurants(email):
 def hashed(password):
     encrypted_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(10))
     return encrypted_password
+
+def update_password(email, password_hashed, new_password):
+
+    user.update_password(new_password)
 
 
 if __name__ == '__main__':

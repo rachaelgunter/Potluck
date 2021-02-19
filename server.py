@@ -19,6 +19,13 @@ SESSION_TYPE = 'null'
 
 ##################################################################################################################
 
+@app.route('/account_password')
+def update_account_pw():
+    """update account password"""
+    
+
+##################################################################################################################
+
 @app.route('/')
 def homepage():
     """non post method of homepage """
@@ -35,10 +42,7 @@ def log_in():
     if user:
         if user.check_password(request.form.get("login_password")): 
             session['email'] = user.email
-            print(user)
             preferences = crud.get_all_users_preferences(user.user_id)
-            print(preferences)
-            print(len(preferences))
             fave_rest = crud.get_users_favorites_restaurants(user.email)
             if len(preferences) > 0:
                 flash(f"logging in!")
@@ -74,8 +78,6 @@ def create_user():
     last_name = request.form.get("last_name")
     email = request.form.get("email")
     email = email.lower()
-    # password = request.form.get("password")
-    # password_hashed = crud.hashed(request.form.get("password"))
     over_21 = request.form.get("over_21")
     user_zipcode = request.form.get("user_zipcode")
 
@@ -139,11 +141,8 @@ def answer_quiz():
     else:  
         pass 
 
-    print(user) 
     preferences = crud.get_all_users_preferences(user.user_id)
-    print(preferences)
     favorite_restaurants = crud.get_users_favorites_restaurants(user.email)
-    print(favorite_restaurants)
     
     return render_template('account.html',
                             user=user,
@@ -208,7 +207,7 @@ def rando_results():
     user = crud.get_user_by_email(session['email'])
     print(user)
 
-    zipcode = request.args.get('user_zipcode')
+    zipcode = request.args.get('zipcode')
     categories = request.args.get('categories')
     address = request.args.get('address')
     price = request.args.get('price')
@@ -216,6 +215,10 @@ def rando_results():
         price = 1
     if price == "$$":
         price = 2
+    if price == "$$$":
+        price = 3
+    if price == "$$$$":
+        price = 4
     print(price)
     
     #more choices
@@ -254,44 +257,43 @@ def rando_results():
                                     reservations,)
 
     list =[]
-    print("^^^^^^^^^^^^", businesses)
+    print("^^^^^^^^", businesses)
     if 'error' in businesses:   
         return redirect('/search')
-    if businesses:
-        for business in businesses['businesses']:
-            # print(business["price"])
-            list.append({
-                        "name": business["name"],
-                        "id": business["id"],
-                        "categories": business["categories"][0]['title'],
-                        "rating": business["rating"],
-                        "coordinates": business["coordinates"],
-                        "price": f'price: {business["price"]}',
-                        "address": business["location"]["display_address"],
-                        "phone": business["display_phone"],
-                        "transactions": business["transactions"],})
+    for business in businesses['businesses']:
+        print(business['name'])
+    for business in businesses['businesses']:
+        list.append({
+                    "name": business["name"],
+                    "id": business["id"],
+                    "categories": business["categories"][0]['title'],
+                    "rating": business["rating"],
+                    "coordinates": business["coordinates"],
+                    "price": business['price'],
+                    "address": business["location"]["display_address"],
+                    "phone": business["display_phone"],
+                    "transactions": business["transactions"],})
 
-        print(len(list))
-        print(list)
-        if len(list) == 5:
-            singular_choice = random.choice(list)
-            print("@@@@@@@", singular_choice)
-            if businesses:
+    
+    if len(list) == 5:
+        singular_choice = random.choice(list)
+        print("@@@@@@@", singular_choice)
+        if businesses:
 
-                return render_template ('search_results.html',
-                                        rando = singular_choice,
-                                        businesses=businesses,
-                                        list = list,)
+            return render_template ('search_results.html',
+                                    rando = singular_choice,
+                                    businesses=businesses,
+                                    list = list,)
 
-            else:
-                flash('Make some selections first!')
-                return render_template('search.html')
+        else:
+            flash('Make some selections first!')
+            return render_template('search.html')
 
 
-        if len(list) < 5:
-            return render_template ('search_results_small.html',
-                                        businesses=businesses,
-                                        list=list) 
+    if len(list) < 5:
+        return render_template ('search_results_small.html',
+                                    businesses=businesses,
+                                    list=list) 
 
 
 ##################################################################################################################
