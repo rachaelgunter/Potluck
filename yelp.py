@@ -23,14 +23,18 @@ def yelp_api_query(zipcode, categories, *args):
     businesses = json.loads(req.text)
 
     print(type(businesses))
-    for business in businesses['businesses']:
-        if "price" not in business:
-            business['price'] = "$*"
-        
+    if 'error' in businesses:
+        return businesses
+    else:
+        for business in businesses['businesses']:
+            if "price" not in business:
+                business['price'] = "$*"
+            return businesses    
+   
     
     # businesses = businesses['businesses']
             
-    return businesses
+    
 
 # business = {"name": business["name"]
 #                     "id": business["id"],

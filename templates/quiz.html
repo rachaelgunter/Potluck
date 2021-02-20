@@ -1,79 +1,70 @@
 {% extends 'base.html' %}
 {%block title %}create an account{% endblock %}
-{% block body %}
 {% block content %}
 <div class="container">
-  <div id="quiz-header">
-  <div class="d-flex justify-content-center">
-  <h1>Hi there {{ user.first_name }}!</h1><br/>
-  Thanks for joining Pot Luck!<br/>
+<div id="quiz-alert" class="alert alert-danger" role="alert">
+  <h4 class="alert-heading">Hi there {{ user.first_name }}! Well done!</h4>
+  <p>Thanks for joining Pot Luck!<br/></p>
+  <hr>
+  <p class="mb-0">We'd love to get to know you more so we can add preferences to your Potluck searches!</p>
 </div>
-</div>
-</div>
-<div class="container">
-  <div class="d-flex justify-content-center">
-    <div class="card">
-        <h5 class="card-header"><title>QUIZ</title>
-          lets get to know a little bit about you first!!
-          you'll answer some questions so we can pick u better Pot Luck's!
-          <div class="form-group">
-            <div class="card-body">
-              <p class="card-text">
-                <div class="form-group">
-                  <form action='/quiz' method='post'>
-                  <p>
-                  <label for="veg">First: are you vegan/vegetarian/pescatarian?</label>
-                  <select name="veg">
-                    <option value="vegan">Vegan</option>
-                    <option value="vegatarian">Vegatarian</option>
-                    <option value="pescatarian">Pescatarian</option>
-                    <option value="omni">Omnivorous</option>
-                  </select>
-                  </p>
-                  <p>
-                  <label for="kosher">Do you keep kosher?</label>
-                  <select name="kosher">
-                    <option value="kosher">Kosher</option>
-                    <option value="not kosher">Not Kosher</option>
-                  </select>
-                  </p>
-                  <p>
-                    <label for="drink">Do you drink?</label>
-                    <select name="drink">
-                      <option value="drink">Yes</option>
-                      <option value="no">No</option>
-                    </select>
+   <div id="card-quiz" style="width: 100%">
+              <h5 id="quiz-card-header">QUIZ<br/></h5>
+                  <div class="card-body">
+                    <p class="card-text">
+                      <div id="form-group-quiz">
+                        <form action='/quiz' method='post'>
+                          <p>
+                          <label for="veg">First: are you vegan/vegetarian/pescatarian?</label>
+                          <select name="veg">
+                            <option value="vegan">Vegan</option>
+                            <option value="vegatarian">Vegatarian</option>
+                            <option value="pescatarian">Pescatarian</option>
+                            <option value="omni">Omnivorous</option>
+                          </select>
+                          </p>
+                          <p>
+                          <label for="kosher">Do you keep kosher?</label>
+                          <select name="kosher">
+                            <option value="kosher">Kosher</option>
+                            <option value="not kosher">Not Kosher</option>
+                          </select>
+                          </p>
+                          <p>
+                            <label for="drink">Do you drink?</label>
+                            <select name="drink">
+                              <option value="drink">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+                            </p>
+                          <p>
+                          <label for="wheel-chair-accessible"> Do you want to see any restaurants that arent wheel-chair accessible? </label>
+                          <select name="wheel-chair-accessible">
+                            <option value="no">Yes</option>
+                            <option value="wheel_chair_accessible">No</option>
+                          </select>
+                          </p>
+                          <p>
+                          <label for="gender-neutral-restrooms">Do you want to see any restaurants without gender-neutral restrooms?</label>
+                          <select name="gender-neutral-restrooms">
+                            <option value="no">Yes</option>
+                            <option value="gender_neutral_restrooms">No</option>
+                          </select>
+                          </p>
+                          <p>
+                          <label for="user_zipcode">Do you want to see any restaurants that DON'T participate in the <a href="https://www.opentoall.com/">Open to All Campaign</a>?</label>
+                          <select name="open-to-all">
+                            <option value="no">Yes</option>
+                            <option value="open_to_all">No</option>
+                          </select>
+                          </p>
+                            <button id="quiz-button" type="submit" class="btn btn-primary btn-lg">save it!</button>
+                        </form>
+                      </div>
                     </p>
-                  <p>
-                  <label for="wheel-chair-accessible"> Do you want to see any restaurants that arent wheel-chair accessible? </label>
-                  <select name="wheel-chair-accessible">
-                    <option value="no">Yes</option>
-                    <option value="wheel_chair_accessible">No</option>
-                  </select>
-                  </p>
-                  <p>
-                  <label for="gender-neutral-restrooms">Do you want to see any restaurants without gender-neutral restrooms?</label>
-                  <select name="gender-neutral-restrooms">
-                    <option value="no">Yes</option>
-                    <option value="gender_neutral_restrooms">No</option>
-                  </select>
-                  </p>
-                  <p>
-                  <label for="user_zipcode">Do you want to see any restaurants that DON'T participate in the <a href="https://www.opentoall.com/">Open to All Campaign</a>?</label>
-                  <select name="open-to-all">
-                    <option value="no">Yes</option>
-                    <option value="open_to_all">No</option>
-                  </select>
-                  </p>
-                  </p>
-                <button type="submit" class="btn btn-primary btn-lg">save it!</button>
-              </form>
-            </div>
-          </div>
-    </div>
-  </div>
-</div>
+                  </div>
+              </div>
+        
 </div>
 <br/>
-{% endblock %}
 {% endblock %}

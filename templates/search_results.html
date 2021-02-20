@@ -1,45 +1,101 @@
 {% extends 'base.html' %}
 {%block title %}search results{% endblock %}
 {% block content %}
-{% block body %}
-<div class="container">
-  <div class="row" id="search-results-div">
-    <form id="rando">
-      <div id="rando-result">
-        <p id="restaurant-name">{{ rando['name'] }}</p>
-        <p id="restaurant-id" style="display:none">{{ rando['id'] }}</p>
-        <p id="restaurant-categories">{{ rando['categories'] }}</p>
-        <p id="restaurant-rating">{{ rando['rating'] }}</p>
-        <p id="restaurant-coordinates">{{ rando['coordinates'] }}</p>
-        <p id="restaurant-price">{{ rando['price'] }}</p>
-        <p id="restaurant-address">{{ rando['address'] }}</p>
-        <p id="restaurant-phone">{{ rando['phone'] }}</p>
-        <p id="restaurant-transactions">{{ rando['transactions'] }}</p>
-          <button value={{ rando['id'] }} id="favorite-restaurant" class="btn btn-primary">Add this restaurant to your favorites</button>
+<div class="container" style="width: 60%;">
+  <div class="row" id="search-results-div" style="line-height: 0.8;">
+    <div class="card">
+      <div class="card-header"><h1>🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲</h1>
+        <form id="rando">
+          <div id="rando-result">
+              <div class="card-body">
+              <h5 class="card-title">
+                <h2><p id="restaurant-name">{{ rando['name'] }}</p></h2>
+                <p id="restaurant-id" style="display:none">{{ rando['id'] }}</p>
+                <p id="restaurant-categories">{{ rando['categories'] }}</p>
+              </h5>
+                <p class="card-text">
+                  <p id="restaurant-rating">Rating: {{ rando['rating'] }}</p>
+                  <p id="restaurant-coordinates"  style="display:none">{{ rando['coordinates'] }}</p>
+                  <p id="restaurant-price">{{ rando['price'] }}</p>
+                  <p id="restaurant-address">{{ rando['address'] }}</p>
+                  <p id="restaurant-phone">{{ rando['phone'] }}</p>
+                  <p id="restaurant-transactions">Available for: {{ rando['transactions'] }}</p>
+                </p>
+              </div>
+            </div>
+        </form>
+        <button value={{ rando['id'] }} id="favorite-restaurant" class="btn btn-primary">Add this restaurant to your favorites</button>
+        <br/><br/><button onclick="resultsHidingFunction()">Click to see all 5!</button>
       </div>
-    </form>
+      
           <br/>
-          <button onclick="resultsHidingFunction()">Click to see all 5!</button>
+          <div class="container" id="randos" style="display:none">
           {% for item in list %}
-            <div class="more_results" id="randos" style="display:none">
+            <div class="more_results">
               <form id="more">
-                <p id="restaurant-name">{{ item['name'] }}</p>
-                <p id="restaurant-id" style="display:none">{{ item['id'] }}</p>
-                <p id="restaurant-categories">{{ item['categories'] }}</p>
-                <p id="restaurant-rating">{{ item['rating'] }}</p>
-                <p id="restaurant-coordinates">{{ item['coordinates'] }}></p>
-                <p id="restaurant-price">{{ item['price'] }}</p>
-                <p id="restaurant-address">{{ item['address'] }}</p>
-                <p id="restaurant-phone">{{ item['phone'] }}</p>
-                <p id="restaurant-transactions">{{ item['transactions'] }}</p>
-                  <br/><br/>
-                    <button value="favorite-restaurant-2" id="favorite-restaurant-2">Add this restaurant to your favorites</button><br/>
+                <h1>🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲</h1>
+                <h1><p id="restaurant-name-2">{{ item['name'] }}</p></h1>
+                <p id="restaurant-id-2" style="display:none">{{ item['id'] }}</p>
+                <p id="restaurant-categories-2">{{ item['categories'] }}</p>
+                <p id="restaurant-rating-2">Rating: {{ item['rating'] }}</p>
+                <p id="restaurant-coordinates-2" style='display:none'>{{ item['coordinates'] }}></p>
+                <p id="restaurant-price-2">{{ item['price'] }}</p>
+                <p id="restaurant-address-2">{{ item['address'] }}</p>
+                <p id="restaurant-phone-2">{{ item['phone'] }}</p>
+                <p id="restaurant-transactions-2">Available for: {{ item['transactions'] }}</p>
               </form>
+                    <button value="favorite-restaurant-2" id="favorite-restaurant-2">Add this restaurant to your favorites</button><br/><br/>
             </div> 
             {% endfor %} 
+          </div>
   </div>
 </div>
+</div>
+<br/>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <span class="close">&times;</span>
+    <h2>Added to your favorites!!</h2>
+  </div>
+  <div class="modal-body">
+    <p>{{ rando['name'] }} was added to your list of favorite restaurants.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="/favorite_restaurants" class="btn btn-primary">View Favorites</a>
+    <a href="/account" class="btn btn-primary">View Account</a>
+  </div>
+  </div>
+</div>
+</div>
+
+<div id="myModal" class="modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+ <div class="modal-content">
+   <div class="modal-header">
+     <span class="close">&times;</span>
+     <h2>Added to your favorites!!</h2>
+   </div>
+   <div class="modal-body">
+     {% for item in list %}
+     <p>{{ item['name'] }} was added to your list of favorite restaurants.</p>
+     {% endfor %}
+   </div>
+   <div class="modal-footer">
+     <a href="/favorite_restaurants" class="btn btn-primary">View Favorites</a>
+     <a href="/account" class="btn btn-primary">View Account</a>
+   </div>
+   </div>
+ </div>
+ </div>
+
+
+
+
 <script src="/static/searchResults.js"></script>
 
-{% endblock %}
 {% endblock %}

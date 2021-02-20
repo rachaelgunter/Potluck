@@ -261,8 +261,6 @@ def rando_results():
     if 'error' in businesses:   
         return redirect('/search')
     for business in businesses['businesses']:
-        print(business['name'])
-    for business in businesses['businesses']:
         list.append({
                     "name": business["name"],
                     "id": business["id"],
@@ -270,13 +268,14 @@ def rando_results():
                     "rating": business["rating"],
                     "coordinates": business["coordinates"],
                     "price": business['price'],
-                    "address": business["location"]["display_address"],
+                    "address": ', '.join(business["location"]["display_address"]),
                     "phone": business["display_phone"],
-                    "transactions": business["transactions"],})
+                    "transactions": ', '.join(business["transactions"]),})
 
     
     if len(list) == 5:
         singular_choice = random.choice(list)
+        list.remove(singular_choice)
         print("@@@@@@@", singular_choice)
         if businesses:
 
@@ -315,6 +314,7 @@ def add_to_favorites():
     """adds a restaurant to your favorites"""
 
     business = request.get_json()
+    print(business)
     yelp_id = business['id']
     print("UUUUUUU", type(business))
     print(business['name'])
