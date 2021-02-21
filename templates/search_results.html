@@ -4,7 +4,7 @@
 <div class="container" style="width: 60%;">
   <div class="row" id="search-results-div" style="line-height: 0.8;">
     <div class="card">
-      <div class="card-header"><h1>🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲</h1>
+      <div class="card-header"><h1>🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲</h1>
         <form id="rando">
           <div id="rando-result">
               <div class="card-body">
@@ -24,7 +24,7 @@
               </div>
             </div>
         </form>
-        <button value={{ rando['id'] }} id="favorite-restaurant" class="btn btn-primary">Add this restaurant to your favorites</button>
+        <button value={{ rando['id'] }} id="favorite-restaurant-button" class="btn btn-primary">Add this restaurant to your favorites</button>
         <br/><br/><button onclick="resultsHidingFunction()">Click to see all 5!</button>
       </div>
       
@@ -33,7 +33,7 @@
           {% for item in list %}
             <div class="more_results">
               <form id="more">
-                <h1>🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲</h1>
+                <h1>🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲</h1>
                 <h1><p id="restaurant-name-2">{{ item['name'] }}</p></h1>
                 <p id="restaurant-id-2" style="display:none">{{ item['id'] }}</p>
                 <p id="restaurant-categories-2">{{ item['categories'] }}</p>
@@ -44,7 +44,7 @@
                 <p id="restaurant-phone-2">{{ item['phone'] }}</p>
                 <p id="restaurant-transactions-2">Available for: {{ item['transactions'] }}</p>
               </form>
-                    <button value="favorite-restaurant-2" id="favorite-restaurant-2">Add this restaurant to your favorites</button><br/><br/>
+                    <!-- <button value="favorite-restaurant-2" id="favorite-restaurant-2">Add this restaurant to your favorites</button><br/><br/> -->
             </div> 
             {% endfor %} 
           </div>
@@ -56,16 +56,13 @@
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
- <div class="modal-dialog modal-dialog-centered" role="document">
+ <div class="modal-dialog" role="document">
 <div class="modal-content">
   <div class="modal-header">
+    <h2>{{ rando['name'] }}</h2> <br/>added to your favorites!!
     <span class="close">&times;</span>
-    <h2>Added to your favorites!!</h2>
   </div>
   <div class="modal-body">
-    <p>{{ rando['name'] }} was added to your list of favorite restaurants.</p>
-  </div>
-  <div class="modal-footer">
     <a href="/favorite_restaurants" class="btn btn-primary">View Favorites</a>
     <a href="/account" class="btn btn-primary">View Account</a>
   </div>
@@ -73,19 +70,16 @@
 </div>
 </div>
 
-<div id="myModal" class="modal">
+<div id="myModal2" class="modal">
   <div class="modal-dialog modal-dialog-centered" role="document">
  <div class="modal-content">
    <div class="modal-header">
+     {% for item in list %} 
+     <h2>{{ item['name'] }} added to your favorites!!</h2>
+     {% endfor %}
      <span class="close">&times;</span>
-     <h2>Added to your favorites!!</h2>
    </div>
    <div class="modal-body">
-     {% for item in list %}
-     <p>{{ item['name'] }} was added to your list of favorite restaurants.</p>
-     {% endfor %}
-   </div>
-   <div class="modal-footer">
      <a href="/favorite_restaurants" class="btn btn-primary">View Favorites</a>
      <a href="/account" class="btn btn-primary">View Account</a>
    </div>

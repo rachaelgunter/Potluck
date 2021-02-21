@@ -153,3 +153,52 @@ if __name__ == '__main__':
     # query it executes.
 
     connect_to_db(app)
+
+    #  class UserFavoriteRestaurant(db.Model):
+#     """model for users favorite restaurants"""
+
+#     __tablename__ = "user_favorite_restaurants"
+
+#     user_favorite_restaurant_id = db.Column(db.String, nullable=False,
+#                             primary_key=True, autoincrement=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),)
+#     restaurant_id = db.Column(db.String, db.ForeignKey('favorite_restaurants.restaurant_id'))                  
+    
+
+#     user = db.relationship('User', backref = 'favorite_restaurants')
+#     restaurant = db.relationship('FavoriteRestaurant', backref = 'favorite_restaurants')
+
+#     def __repr__(self):
+#         return f'<UserFavoriteRestaurant favorite_restaurant_id = {self.favorite_restaurant_id} restaurant_id = {self.restaurant_id} user_id = {self.user_id}>'
+
+# class FavoriteRestaurant(db.Model):
+#     """model for favorite restaurants"""
+
+#     __tablename__ = "favorite_restaurants"
+
+#     restaurant_id = db.Column(db.String, 
+#                             primary_key=True)
+#     restaurant_info = db.Column(JSON, nullable=False, default=dict)
+
+#     def __repr__(self):
+#             return f'<FavoriteRestaurant restaurant_id = {self.restaurant_id} restaurant_info = {self.restaurant_info}>'
+# def create_user_fav_restaurant(restaurant_id, email, restaurant_info):
+#     """creates and returns a users favorite restaurant"""
+
+#     user = get_user_by_email(email=email)
+#     restaurant = FavoriteRestaurant.query.filter(FavoriteRestaurant.restaurant_id==restaurant_id).all()
+    
+#     if len(restaurant) < 1:
+#         restaurant = FavoriteRestaurant(restaurant_id=restaurant_id, restaurant_info=restaurant_info)
+#         user_fav_rest = UserFavoriteRestaurant(restaurant_id=restaurant_id, user_id=user.user_id)
+#         db.session.add(user_fav_rest)
+#         db.session.commit()
+#         print("!(!(!(!(!(!(!(", user_fav_rest.user_favorite_restaurant_id)
+
+#         return user_fav_rest
+#     if len(restaurant) > 0:
+#         user_fav_rest = UserFavoriteRestaurant(restaurant_id=restaurant.restaurant_id, user_id=user.user_id)
+#         db.session.add(user_fav_rest)
+#         db.session.commit()
+#         print("!(!(!(!(!(!(!(", user_fav_rest.user_favorite_restaurant_id)
+#         return user_fav_rest

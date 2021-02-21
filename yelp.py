@@ -7,11 +7,10 @@ def yelp_api_query(zipcode, categories, *args):
     YELP_KEY = os.environ['YELP_KEY']
     headers = {'Authorization': 'Bearer %s' % YELP_KEY}
 
-   
-
     url='https://api.yelp.com/v3/businesses/search'
     params = {'limit': 5, 
             'location': zipcode, 
+            # 'categories': "restaurants",
             'categories': categories,}
             # 'address': address,
             # 'price': price,
@@ -28,8 +27,8 @@ def yelp_api_query(zipcode, categories, *args):
     else:
         for business in businesses['businesses']:
             if "price" not in business:
-                business['price'] = "$*"
-            return businesses    
+                business['price'] = "$*"    
+        return businesses
    
     
     # businesses = businesses['businesses']

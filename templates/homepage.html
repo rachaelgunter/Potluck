@@ -14,42 +14,63 @@
     </div>
   </div>
 </div>
-</div>
+</div><br/><br/>
     
 <div class="container-fluid">
   <div class="d-flex justify-content-center">
-    <div class="row justify-content-md-center">
-      <div class="shadow p-2 mb-5">
-      <div id="card-login" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title"><p style="font-family:courier,arial,helvetica; color: black">Log Into Your<br/> Potluck Account</p></h5>
-          <p class="card-text">
-            <form action = '/login' method='POST'>
-            <label for="colFormLabel" class="col-sm-2 col-form-label">email</label>
-            <input type="email" name="login_email" class="form-control" placeholder="pot@luck.com">
-            <label for="colFormLabel" class="col-sm-2 col-form-label col-form-label">password</label>
-            <input type="password" name="login_password" class="form-control">
-          </p>
-          <button id="homepage" type="submit" class="btn btn-primary btn-lg">Log In</button>
-        </form>
-      </div>
+        <div class="row justify-content-md-center">
+          <div class="col-7" style="justify-content: center">
+            <div id="card-login" style="width: 25rem;">
+              <div class="card-body">
+                <h5 class="card-title">Log Into Your<br/> Potluck Account</h5>
+                    <p class="card-text">
+                  <form action = '/login' method='POST'>
+                  <!-- <label for="colFormLabel" class="col-lg-2 col-form-label">email</label> -->
+                  <p class="form-label">email</p>
+                  <input type="text" name="login_email" class="form-control" placeholder="pot@luck.com">
+                  <!-- <label for="colFormLabel" class="col-lg-2 col-form-label col-form-label">password</label> -->
+                  <p class="form-label">password</p>
+                  <input type="password" name="login_password" class="form-control">
+                    </p>
+                  <button id="homepage" type="submit" class="btn btn-primary btn-lg">Log In</button>
+                  </form>
+              </div>
+            </div>
+          </div>
+        <div class="col-3">
+          <div id="card-create-account" style="width: 25rem; justify-content: center;">
+            <div class="card-body">
+              <h5 class="card-title"><h5>Not a member yet???</h5>
+              <a href="/create_account" id="homepage" type="button" class="btn btn-primary btn-lg">Create a Pot Luck Account</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
         </div>
       </div>
-    </div>
+        
   </div>
 </div>    
 <br/>
-<div class="d-flex justify-content-center">
-  <div class="row align-items-center">
-    <div class="col">
-      <div id="card-create-account" style="width: 25rem;">
-        <div class="card-body">
-          <h5 class="card-title"><h5>Not a member yet???</h5>
-          <a href="/create_account" id="homepage" type="button" class="btn btn-primary btn-lg">Create a Pot Luck Account</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<br/>
+
+<!-- <button id="homepage-modal" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
+
+
+<div id="myModal3" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+ <div class="modal-content">
+   <div class="modal-header">
+     <h2>rachael</h2> <br/>added to your favorites!!
+     <span class="close">&times;</span>
+   </div>
+   <div class="modal-body">
+   </div>
+   </div>
+ </div>
+ </div>
+
+
+
+
+
 {% endblock %}

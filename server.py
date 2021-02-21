@@ -32,18 +32,23 @@ def homepage():
 
     return render_template ('homepage.html')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def log_in():
     """displays homepage and log in"""
 
     form_email = request.form.get("login_email")
+    print(form_email)
     user = crud.get_user_by_email(form_email)
+    print(user)
 
     if user:
         if user.check_password(request.form.get("login_password")): 
             session['email'] = user.email
+            print(session)
             preferences = crud.get_all_users_preferences(user.user_id)
+            print(preferences)
             fave_rest = crud.get_users_favorites_restaurants(user.email)
+            print(fave_rest)
             if len(preferences) > 0:
                 flash(f"logging in!")
                 return render_template('account.html',
@@ -120,14 +125,14 @@ def answer_quiz():
         kosher_prence = crud.create_user_preference_for_user(kosher, email)
     else:  
         pass 
-    drink = request.form.get('drink')
-    if drink == "drink":
-        drink_prence = crud.create_user_preference_for_user(drink, email)
+    drinks = request.form.get('drinks')
+    if drinks == "drinks":
+        drink_prence = crud.create_user_preference_for_user(drinks, email)
     else:  
         pass 
     wheel_chair_accessibile = request.form.get('wheel-chair-accessible')
     if wheel_chair_accessibile == "wheel_chair_accessible":
-        wheel_chair_accessibile_prence = crud.create_user_preference_for_user("wheel chair accessibile", email)
+        wheel_chair_accessibile_prence = crud.create_user_preference_for_user("wheel chair accessibility", email)
     else:  
         pass 
     gender_neutral_restrooms = request.form.get('gender-neutral-restrooms')
@@ -197,7 +202,7 @@ def search_page():
         flash("not logged in!")
         return redirect('/')
   
-    return render_template('search.html')
+    return render_template('search.html', user=user)
 
 @app.route('/search_results')
 def rando_results():
@@ -357,6 +362,10 @@ def display_favorite_restaurants():
 
         return render_template('favrestpage.html',
                                 user=user,
+                                favorite_restaurants=fave_rest)
+    else: 
+        return render_template('favrestpage.html',
+                                # user=user,
                                 favorite_restaurants=fave_rest)
 
 ##################################################################################################################
