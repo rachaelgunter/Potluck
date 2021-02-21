@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{%block title %}account page {% endblock %}
+{% block content %}
+<div class="container" id="fave-restaurants">
+    <div class="row" style="justify-content: center">
+        <div class="col">
+            <h1>FAVORITES</h1><br/>
+        </div>
+    </div>
+        <div class="row" style="justify-content: center">
+            <div class="col">
+                <h2>Want help with a Potluck from your favorites?</h2>
+            </div>
+        </div>
+        <div class="row" style="justify-content: center">
+            <div class="col">
+                <button value=random_favorite id="random_favorite" onclick="randomChoiceFaveRest()">
+                        click here!</button><br/>
+            </div><br/>
+        </div><br/>
+        <div class="row" style="justify-content: center">
+            <!-- <div class="col" style="justify-content: center"> -->
+                <div class="col-sm" style="justify-content: center" id="fave-rest-random-choice"></p>
+            </div>
+        </div>
+        
+        <div id="favorite-restaurant-row" class="row" style="justify-content: center">
+            {% if favorite_restaurants %}
+            {% for item in favorite_restaurants %}
+                <div id="card-favorite-restaurant" class="card">
+                    <div id="card-favorite-restaurant-header">
+                        {{ item.restaurant_info['name'] }}
+                    </div> 
+                        <div class="card-text">
+                            {{ item.restaurant_info['categories'] }}<br/>
+                            {{ item.restaurant_info['rating'] }}<br/>
+                            {{ item.restaurant_info['address'] }}<br/>
+                            {{ item.restaurant_info['transactions'] }}<br/>
+                            {{ item.restaurant_info['phone'] }}<br/>
+                        </div>   
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+</div>
+<br/>
+
+{% endblock %}
