@@ -1,15 +1,18 @@
 # POTLUCK
 
-(/static/canva/potlucklogo.png)
+<img src=/static/canva/potlucklogo.png>
 
-Have you ever had the problem where you have TOO MANY choices for dinner? What if someone made that choice for you? Potluck picks a restaurant for you based on your likes, dislikes,  and other preferences. You're almost guaranteed to like our choice!
+Have you ever had the problem where you have TOO MANY choices for dinner?<br/>
+What if someone made that choice for you?<br/>
+Potluck picks a restaurant for you based on your likes, dislikes and other preferences. <br/>
+You're almost guaranteed to like our choice!
 
 ## Tech Stack
 
-Front End: HTML5, Jinja2, CSS, JavaScript, AJAX, Bootstrap, jQuery
-Back End: Python, Flask, PostgreSQL, SQLAlchemy, bcrypt
-Database: PostgreSQL
-API: Yelp API
+Front End: HTML5, Jinja2, CSS, JavaScript, AJAX, Bootstrap, jQuery<br/>
+Back End: Python, Flask, PostgreSQL, SQLAlchemy, bcrypt<br/>
+Database: PostgreSQL<br/>
+API: Yelp API<br/>
 
 ## Setup & Installation
 
