@@ -61,22 +61,19 @@ Create a project database:
 $ createdb potluck
 ```
 
-Run Model.py to create your database tables and connect to the server.app:
+Run crud.py, seed.py, mdropodel.py to create your database tables and connect to the server.app:
 
 ```
-$ python3 -i model.py
->>> connect_to_db(server.app)
->>> db.create_all()
+$ python3 crud.py
+$ python3 seed.py
+$ python3 model.py
 ```
 
 Run the server.py to your local host:
 
 ```
 $ python3 server.py
+```
 
 
-## Usage
-
-
-## Developer information 
 

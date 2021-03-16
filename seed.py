@@ -27,41 +27,41 @@ model.db.create_all()
 #     print('this is encrytped pw' , encrypted_password)
 #     return encrypted_password
 
-#seeding traits 
-for n in range(3):
-    trait_name = f'trait {n}'
-    # print(trait_name)
-    ptrait = crud.create_trait(trait_name)
+# #seeding traits 
+# for n in range(3):
+#     trait_name = f'trait {n}'
+#     # print(trait_name)
+#     ptrait = crud.create_trait(trait_name)
 
-#seeding preferences 
-for n in range(3):
-    preference_name = f'preference {n}'
+# #seeding preferences 
+# for n in range(3):
+#     preference_name = f'preference {n}'
 
-    prence = crud.create_preference(preference_name)
+#     prence = crud.create_preference(preference_name)
 
-#seeding users and their traits
-for n in range(1, 21):
-    first_name = f'first-{n}'
-    last_name = f'last-{n}'
-    email = f'user{n}@test.com'
-    password = 'test'
-    password_hashed = crud.hashed(password)
-    over_21 = choice([True, False])
-    user_zipcode = '11220'
+# #seeding users and their traits
+# for n in range(1, 21):
+#     first_name = f'first-{n}'
+#     last_name = f'last-{n}'
+#     email = f'user{n}@test.com'
+#     password = 'test'
+#     password_hashed = crud.hashed(password)
+#     over_21 = choice([True, False])
+#     user_zipcode = '11220'
 
-    user = crud.create_user(first_name, last_name, email, password_hashed, over_21, user_zipcode)
+#     user = crud.create_user(first_name, last_name, email, password_hashed, over_21, user_zipcode)
 
-for n in range(3):
-    user_id = randint(1, 21)
-    trait_id = randint(1, 3)
+# for n in range(3):
+#     user_id = randint(1, 21)
+#     trait_id = randint(1, 3)
 
-    user_ptrait = crud.create_user_ptrait(user_id, trait_id)
+#     user_ptrait = crud.create_user_ptrait(user_id, trait_id)
 
-for n in range(3):
-    user_id = randint(1, 21)
-    preference_id = randint(1, 3)
+# for n in range(3):
+#     user_id = randint(1, 21)
+#     preference_id = randint(1, 3)
 
-    user_prence = crud.create_user_preference(user_id, preference_id)
+#     user_prence = crud.create_user_preference(user_id, preference_id)
 
 # key = ["_M5FVY4hkcuU-ASdVZPfRQ", "isIFCDLE3VIDJcqhVy_klA", "O-zwQQV8AExgdPoJiqjpDg"]
 

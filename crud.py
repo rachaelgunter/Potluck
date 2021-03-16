@@ -1,6 +1,17 @@
 from model import User, Preference, PersonalityTrait, UserPersonalityTrait, UserPreference, UserFavoriteRestaurant, connect_to_db, db
 import bcrypt
 
+import os
+import json
+from random import choice, random, randint
+
+import model
+import crud
+import server
+import psycopg2
+import bcrypt
+import scrypt
+
 def create_user(first_name, last_name, email, password_hashed, over_21, user_zipcode):
     """creates and returns a new user"""
 
