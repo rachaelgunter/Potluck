@@ -1,0 +1,371 @@
+
+
+body {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* background color */
+
+.background-image {
+  background-image: url("/static/photos/thinh-nguyen-ReL4fy3Wg1U-unsplash-1.jpg");
+  filter: blur(0px);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#search-image {
+  background-image: url("/static/canva/getluckytall.png");
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
+/* nav bar image and styling */
+
+.navbar-nav, .footer {
+  width: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0px;
+  padding: 0px;
+  border-bottom-width: 5px;
+
+  /* Needed to position the navbar */
+  position: relative;
+}
+
+/* column */
+
+#favorite-restaurant {
+  width: 10rem;
+  height: 15rem;
+  justify-content: center;
+}
+
+/* row  */
+
+#favorite-restaurant-row {
+  flex-flow: wrap;
+  align-content: space-around;
+
+}
+
+
+#dealers-choice {
+  border-style: groove;
+  border-color: coral;
+  border-width: 7px;
+}
+
+#card-body-search {
+  width: 600px;
+}
+
+#homepage, #preferences  {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+
+/* alert */
+
+#quiz-alert {
+  width: 100%; 
+  justify-self: center;
+  font-size: 20pt;
+}
+
+.alert-heading {
+  font-size: 25pt;
+}
+
+/* title */
+
+#fave-rest-random-choice {
+  background-color: #DD2E44;
+  border-style: groove;
+  border-color: black;
+  justify-self: center;
+  font-size: 30pt;
+  border: black;
+  padding: 15px 32px; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: 30rem;
+}
+
+/* buttons */
+
+#search-results, #account-page-favorite-restaurants, #account-page-preferences {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+}
+
+#account_page_search, #favorite-restaurant-button, #more-choices, #create-account-button, #quiz-button {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 18pt;
+  padding: 10px 12px;
+  justify-self: center;
+}
+
+#card-login, #quiz-header {
+  background-color: #DD2E44;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+box-shadow: 0 2rem 4.6rem rgba(0,0,0,0.9);
+
+#account-page-preferences {
+  background-color: #DD2E44;
+  border: none;
+  color: black;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+}
+
+/* page */
+
+
+#quiz-page, #search-results-div {
+  justify-content: center;
+  background-color: white;
+  margin: auto;
+  padding: 10px;
+  width: 45rem;
+  color: black;
+  padding: 5px 5px;
+  text-align: center;
+  border-style: inset;
+  align-self: center;
+  font-size: 16pt;
+}
+
+#account-page {
+  justify-content: center;
+  background-color: white;
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  color: black;
+  padding: 5px 5px;
+  text-align: center;
+  border-style: inset;
+  align-self: center;
+  font-size: 16pt;
+}
+
+#fave-restaurants {
+  justify-content: center;
+  background-color: white;
+  margin: auto;
+  padding: 10px;
+  width: 100rem;
+  height: auto;
+  color: black;
+  padding: 5px 5px;
+  text-align: center;
+  border-style: inset;
+  align-self: center;
+  font-size: 16pt;
+
+}
+
+/* card  */
+
+#card-create-account, #card-quiz {
+  width: 30rem;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  color: black;
+  background-color: white;
+  border-radius: 5px; 
+  justify-content: center;
+  
+}
+
+#card-favorite-restaurant {
+  width: 20rem;
+  height: 20rem;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  color: black;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px; 
+  justify-content: center;
+}
+
+/* card headers */
+
+#card-favorite-restaurant-header, #card-header-search, #account-page-card-header, #quiz-card-header, #create-account-card-header {
+  justify-content: center;
+  background-color: rgb(243, 227, 138);
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  color: black;
+  text-align: center;
+  border-style:ridge ;
+  align-self: center;
+  font-size: 20pt;
+  font-family: fangsong;
+  line-height: .8;
+}
+
+.card-body {
+  font-family: 'Montserrat', sans-serif;
+    /* font-family: courier,arial,helvetica; */
+  color: black;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.form-label{
+  
+}
+
+#card-text {
+  text-align: left;
+}
+/* forms */
+
+#form-group-create-account, #form-group-search, #form-group-quiz {
+  text-align: left;
+  font-size: 18pt;
+  font-family: fangsong;
+  width: 100%;
+}
+
+
+
+#flashed-messages {
+  background-color: #DD2E44;
+  animation-name: fade-out;
+  animation-duration: 1s;
+}
+
+#search-page {
+  background-color: white;
+  margin: auto;
+  padding: 10px;
+  width: 75%;
+  color: black;
+  padding: 5px 5px;
+  text-align: center;
+  border-style: inset;
+  display: inline-block;
+  font-size: 14pt;
+
+}
+
+.form-search-control {
+  width: 100%;
+  padding: 8px 20px;
+  margin: 4px 0;
+  display: inline-block;
+  border: 4px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* modal css */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 250px;
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: black;
+  margin: auto;
+  border: 3px solid #888;
+  width: 100%;
+  height: 150%;
+  padding: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+  height: 100%;
+  padding: 5px 16px;
+  font-size: 20pt;
+  background-color: #DD2E44;
+  color: white;
+}
+
+/* Modal Body */
+.modal-body {
+  height: 150%;
+  padding: 2px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #DD2E44;
+  color: white;
+}
+
+/* Add Animation
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+} */
