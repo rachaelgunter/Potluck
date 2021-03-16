@@ -1,6 +1,6 @@
 # POTLUCK
 
-! [Potluck Logo](/static/canva/potlucklogo.png)
+![Potluck Logo](/static/canva/potlucklogo.png)
 
 Have you ever had the problem where you have TOO MANY choices for dinner?<br/>
 What if someone made that choice for you?<br/>
